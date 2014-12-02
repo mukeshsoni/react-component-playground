@@ -1,17 +1,22 @@
-var React = require('react');
+/**
+ * @jsx React.DOM
+ */
 
-var MainComp = React.createClass({
+'use strict';
 
-    render: function() {
-        return (
-            <div>
-                Main Comp
-            </div>
-        );
-    }
+var Immutable = require('immutable');
+var React = require('react/addons');
 
-});
+// require('./../../app/bower_components/pure/pure-min.css');
+// require('./../../node_modules/purecss/pure.css');
+// require('./../css/main.css');
+// Export React so the devtools can find it
+(window !== window.top ? window.top : window).React = React;
+(window !== window.top ? window.top : window).Immutable = Immutable;
 
-React.render(<MainComp />, document.getElementById('container'));
+// components
+var TippyTapApp = require('./components/tippy_tap_app.jsx');
 
-module.exports = MainComp;
+React.renderComponent(<TippyTapApp />, document.getElementById('container')); // jshint ignore:line 
+
+module.exports = TippyTapApp;

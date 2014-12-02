@@ -7,7 +7,9 @@ The question to answer is - Can we use immutable data structures and react's rer
 
 How to try it out - 
 
-`npm install`
-`gulp`
+```
+$ npm install
+$ gulp
+```
 
 Go to the browser - `localhost:8000`
