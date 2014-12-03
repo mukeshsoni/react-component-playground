@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var React = require('react');
 var RightContainer = require('../components/right_container.jsx');
+var Playground = require('./playground.jsx');
 var UI = require('./../js/uidata.js');
 var Immutable = require('immutable');
 var History = require('immutable-history');
@@ -72,6 +73,8 @@ var TippyTapApp = React.createClass({
                     <button onClick={this.togglePreviewMode}>Preview Mode</button>
                 </header>
                 <div className='pure-g'>
+                    <Playground
+                        />
                     <RightContainer
                         handleDragEnd={this.handleDragEnd}
                         componentList={componentListForListing} />
