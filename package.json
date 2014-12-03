@@ -4,7 +4,8 @@
   "description": "A place where you can design with existing react components by drag and drop and other not programmatic ways",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --progress --colors"
   },
   "keywords": [
     "reactjs",
@@ -17,19 +18,18 @@
   "author": "Mukesh Soni <mukeshsoni@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "browserify": "^6.3.3",
-    "cssify": "^0.6.0",
-    "del": "^1.0.0",
-    "gulp": "^3.8.10",
-    "gulp-concat-css": "^1.1.1",
-    "gulp-livereload": "^2.1.1",
-    "reactify": "^0.17.1",
-    "vinyl-source-stream": "^1.0.0"
+    "jsx-loader": "^0.12.2",
+    "style-loader": "^0.8.2",
+    "webpack": "^1.4.13",
+    "webpack-dev-server": "^1.6.6"
   },
   "dependencies": {
+    "css-loader": "^0.9.0",
     "immutable": "^3.3.0",
+    "immutable-history": "^0.2.0",
     "lodash": "^2.4.1",
     "purecss": "^0.5.0",
-    "react": "^0.12.1"
+    "react": "^0.12.1",
+    "react-tabs": "^0.1.2"
   }
 }
