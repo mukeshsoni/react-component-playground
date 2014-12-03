@@ -1,7 +1,53 @@
+var _ = require('lodash');
 var React = require('react');
 var RightContainer = require('../components/right_container.jsx');
+var UI = require('./../js/uidata.js');
+var Immutable = require('immutable');
+var History = require('immutable-history');
 
-var componentListForListing = [];
+var defaultPostion = { top: 0, left: 0 };
+function render(cursor) {
+    var children = cursor.get(['children']);
+    // setTimeout(function() {
+    //     var children = cursor.get(['children']);
+    //     if (children.length < 5) {
+    //       children.update(function(oldValue) {
+    //         return oldValue.push('EVEN MORE MUSCLES');
+    //       });
+    //     } else {
+    //         // go back to the previous state of the cursor
+    //         history.undo();
+    //     }
+    // }, 500);
+    // console.log(cursor.toJS());
+    // console.log('children: ', children.toJS());
+}
+
+var history = new History({
+    data: {name: 'basic/canvas', position: defaultPostion},
+    children: [
+        {
+            data: {name: 'custom/details-pane', position: defaultPostion},
+            children: [
+                {data: {name: 'basic/select', position: defaultPostion}, children: []}
+            ]
+        },
+    ]
+}, render);
+
+var componentListForListing = _.reduce(UI, function(result, value, key) {
+    var componentCategory = key.split('/')[0];
+    if(!result[componentCategory]) {
+        result[componentCategory] = [];
+        return result;
+    } else {
+        result[componentCategory].push(key);
+        return result;
+    }
+    return {};
+}, {});
+
+console.log('component for listing: ', componentListForListing);
 
 var TippyTapApp = React.createClass({
     getInitialState: function() {
