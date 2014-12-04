@@ -28,19 +28,15 @@ function handleRedoClick() {
 }
 
 function render(cursor) {
+    console.log('top level render called');
     React.render(<TippyTapApp onUndoClick={handleUndoClick} onRedoClick={handleRedoClick} cursor={cursor} />, document.getElementById('container')); // jshint ignore:line 
 }
 
 var defaultPostion = { top: 0, left: 0 };
 var history = new History({
-        data: {name: 'basic/canvas', position: defaultPostion},
-        children: [
-            {
-                data: {name: 'custom/details-pane', position: defaultPostion},
-                children: [
-                    {data: {name: 'basic/select', position: defaultPostion}, children: []}
-                ]
-            },
+        data: [
+            {name: 'basic/button', position: defaultPostion},
+            {name: 'basic/select', position: defaultPostion}
         ]
     }, render);
 

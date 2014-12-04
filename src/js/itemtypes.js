@@ -1,5 +1,6 @@
 'use strict';
 
 module.exports = {
-  ITEM: 'item'
+  ITEM: 'item',
+  BOX: 'box'
 };
