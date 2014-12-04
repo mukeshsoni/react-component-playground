@@ -3,8 +3,14 @@
  */
 
 var React = require('react/addons');
+var ItemTypes = require('./../js/itemtypes.js');
+var MenuItem = require('./basic/menuitem.jsx');
 
 var Menu = React.createClass({
+    propTypes: {
+        items: React.PropTypes.arrayOf(React.PropTypes.string)
+    },
+
     getDefaultProps() {
         return {
             items: ["Home", "Flickr", "Messenger", "Sports", "Finance"],
@@ -19,11 +25,13 @@ var Menu = React.createClass({
             "pure-menu-horizontal": this.props.horizontal || !this.props.vertical
         });
 
-        var menuItems = this.props.items.map(function(item) {
+        var menuItems = this.props.items.map(function(item, index) {
             return (
-                <li className={this.props.selectedItem===item?"pure-menu-selected":""}>
-                    <a href="#">{item}</a>
-                </li>
+                <MenuItem 
+                    key={'menu_item_no' + index}
+                    selected={this.props.selectedItem===item}
+                    item={item}
+                    />
             );
         }, this);
 

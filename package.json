@@ -30,6 +30,7 @@
     "lodash": "^2.4.1",
     "purecss": "^0.5.0",
     "react": "^0.12.1",
+    "react-dnd": "^0.6.1",
     "react-tabs": "^0.1.2"
   }
 }

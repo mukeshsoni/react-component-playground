@@ -17,11 +17,7 @@ var TabList = ReactTabs.TabList;
 var Menu = require('./menu.jsx');
 
 var RightContainer = React.createClass({
-    handleDragStart: (item) => this.props.onItemDragStart(item),
     getDefaultProps: () => { componentList: {} },
-    handleDragEnd: function (event) { 
-        this.props.handleDragEnd && this.props.handleDragEnd(event);
-    },
     render: function() {
         var index = 0;
         var self = this;
@@ -32,22 +28,25 @@ var RightContainer = React.createClass({
         };
 
         // how the below code would have worked if our component understood just Immutables
-        var componentViews = _.map(this.props.componentList, function(componentItems, componentType) {
+        var componentViews = _.map(this.props.componentList, function(componentItems, componentType, index) {
             return (
-                <TabPanel>
+                <TabPanel
+                    key={'tab_panel_no_'+index}>
                     <Menu
                         key={"component_menu_"+Math.random()}
                         items={componentItems}
-                        onItemDragStart={self.handleDragStart}
-                        handleDragEnd={self.handleDragEnd}
                     />
                 </TabPanel>
             );
         });
 
-        var tabs = _.map(this.props.componentList, function(componentItems, componentType) {
+        var tabs = _.map(this.props.componentList, function(componentItems, componentType, index) {
             return (
-                <Tab>{componentType.charAt(0).toUpperCase()+_.rest(componentType).join('')}</Tab>
+                <Tab
+                    key={'tab_no_'+index}
+                    >
+                    {componentType.charAt(0).toUpperCase()+_.rest(componentType).join('')}
+                </Tab>
             );
         }); //.toJS();
 
