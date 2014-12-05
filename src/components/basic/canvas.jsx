@@ -5,10 +5,20 @@
 var React = require('react/addons');
 
 var Canvas = React.createClass({
-
+    getDefaultProps: function() {
+        return {
+            style: {
+                style: {
+                    width: 400,
+                    height: 400,
+                    backgroundColor: 'lightgrey'
+                }
+            }
+        };
+    },
     render() {
         return (
-            <div style={{width: "800px", height: "800px", backgroundColor: "lightgrey"}}>
+            <div {...this.props.style}>
                 {this.props.children}
             </div>
         );

@@ -30,7 +30,8 @@ var Playground = React.createClass({
                             position: {
                                 left: 0,
                                 top: 0
-                            }
+                            },
+                            props: {}
                         }));
                     });
                     console.log('You dropped ' + item.name + '!');
@@ -70,17 +71,10 @@ var Playground = React.createClass({
             hideSourceOnDrag: false 
         };
     },
-    handleDropWithOtherComponent: function(e, dropTarget) {
-        this.props.onItemDropWithOtheComponent(e, dropTarget);
-    },
-    handleCloseClick: function(closeTarget) {
-        this.props.onCloseClick(closeTarget);
-    },
-    updateComponentPosition: function(component, event, ui) {
-        this.props.updateComponentPosition(component, event, ui);
-    },
-    setActiveComponent: function(component) {
-        this.props.setActiveComponent(component);
+    handleComponentRemoveClick: function(index) {
+        this.props.cursor.get('data').update(function(oldValue) {
+            return oldValue.splice(index, 1);
+        });
     },
     render() {
         var playgroundStyle = {
@@ -102,11 +96,12 @@ var Playground = React.createClass({
 
         var components = this.props.cursor.get('data').toJS();
         var dragTargets = components.map(function(component, index) {
-            var ui = UI[component.name].apply(null);
+            var ui = React.createElement(UI[component.name].comp, UI[component.name].props || component.props || {});
             return (
                 <DragTarget
                     id={index}
                     hideSourceOnDrag={this.state.hideSourceOnDrag}
+                    onCloseClick={this.handleComponentRemoveClick}
                     key={'drop_target_'+index}
                     top={component.position.top}
                     left={component.position.left}>
@@ -123,7 +118,6 @@ var Playground = React.createClass({
                 className="pure-u-15-24 playground"
                 style={playgroundStyle}
             >
-                <h3>Playground</h3>
                 {dragTargets}
             </div>
         );

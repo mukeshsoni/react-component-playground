@@ -28,10 +28,12 @@ var RightContainer = React.createClass({
         };
 
         // how the below code would have worked if our component understood just Immutables
-        var componentViews = _.map(this.props.componentList, function(componentItems, componentType, index) {
+        var tabPanelIndex = 0;
+        var componentViews = _.map(this.props.componentList, function(componentItems, componentType) {
+            tabPanelIndex++;
             return (
                 <TabPanel
-                    key={'tab_panel_no_'+index}>
+                    key={'tab_panel_no_'+tabPanelIndex}>
                     <Menu
                         key={"component_menu_"+Math.random()}
                         items={componentItems}
@@ -40,10 +42,12 @@ var RightContainer = React.createClass({
             );
         });
 
-        var tabs = _.map(this.props.componentList, function(componentItems, componentType, index) {
+        var tabIndex = 0;
+        var tabs = _.map(this.props.componentList, function(componentItems, componentType) {
+            tabIndex++;
             return (
                 <Tab
-                    key={'tab_no_'+index}
+                    key={'tab_no_'+tabIndex}
                     >
                     {componentType.charAt(0).toUpperCase()+_.rest(componentType).join('')}
                 </Tab>

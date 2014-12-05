@@ -1,1 +1,4 @@
- ☐ Just do it. Ok one step at time :)
+ ☐ Ability to remove element on the playground by clicking close button on top right
+ ☐ Snap to grid checkbox for draggable components
+ ☐ Make the elements on the playground non clickable by default. Only make them clickable in 'preview mode'
+ ☐ When element is dragged from right menu to playground, show image of the component as dragged element

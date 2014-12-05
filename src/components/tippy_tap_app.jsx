@@ -9,7 +9,7 @@ var History = require('immutable-history');
 var componentListForListing = _.reduce(UI, function(result, value, key) {
     var componentCategory = key.split('/')[0];
     if(!result[componentCategory]) {
-        result[componentCategory] = [];
+        result[componentCategory] = [key];
         return result;
     } else {
         result[componentCategory].push(key);

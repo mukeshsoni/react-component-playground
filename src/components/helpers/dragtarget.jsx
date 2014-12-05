@@ -31,6 +31,8 @@ var { DragDropMixin, DropEffects } = require('react-dnd');
 // require('../../../styles/drag_target.css');
 
 var handleClassNameCounter = 0;
+var closeButtonPngPath = require('../../images/close_button.png');
+console.log('close button: ', closeButtonPngPath);
 
 var DragTarget = React.createClass({
     mixins: [DragDropMixin],
@@ -39,6 +41,7 @@ var DragTarget = React.createClass({
     getInitialState: function() {
         return {
             id: Math.random()*1000,
+            showCloseButton: false
         };
     },
     configureDragDrop(registerType) {
@@ -66,9 +69,18 @@ var DragTarget = React.createClass({
             top: 0
         };
     },
-    getInitialState: function() {
-        return { 
-        };
+    handleCloseClick: function() {
+        typeof this.props.onCloseClick === 'function' && this.props.onCloseClick(this.props.id);
+    },
+    handleMouseEnter: function() {
+        if(!this.state.showCloseButton) {
+            this.setState({showCloseButton: true});
+        }
+    },
+    handleMouseLeave: function() {
+        if(this.state.showCloseButton) {
+            this.setState({showCloseButton: false});
+        }
     },
     render: function() {
         var { isDragging } = this.getDragState(ItemTypes.BOX),
@@ -78,16 +90,35 @@ var DragTarget = React.createClass({
             return null;
         }
 
+        var dragStyle = {
+            position: 'absolute',
+            left: this.props.left,
+            top: this.props.top,
+            border: '1px dashed gray',
+            padding: '0.5rem',
+            cursor: 'url(https://mail.google.com/mail/images/2/openhand.cur) 8 8, move'
+        };
+        // if(isDragging) {
+        //     dragStyle.cursor = 'url(https://mail.google.com/mail/images/2/closedhand.cur), move';
+        // }
+        var closeButtonStyles = {
+            width: "20px",
+            height: "20px",
+            position: "absolute",
+            right: 0,
+            top: 0
+        };
+
         return (
-            <div {...this.dragSourceFor(ItemTypes.BOX)}
-                style={{
-                    position: 'absolute',
-                    left: this.props.left,
-                    top: this.props.top,
-                    border: '1px dashed gray',
-                    padding: '0.5rem'
-                }}>
-                {this.props.children}
+            <div 
+                {...this.dragSourceFor(ItemTypes.BOX)}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseLeave={this.handleMouseLeave}
+                style={dragStyle}>
+                {this.state.showCloseButton ? <img onClick={this.handleCloseClick} src={closeButtonPngPath} style={closeButtonStyles} /> : ''}
+                <div style={{pointerEvents: 'none'}}>
+                    {this.props.children}
+                </div>
             </div>
         );
     },
