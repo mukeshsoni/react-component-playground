@@ -13,14 +13,6 @@ var Menu = React.createClass({
             vertical: true
         };
     },
-    handleDragStart(item, event) {
-        event.dataTransfer.setData('text', item);
-        // this.props.onItemDragStart(item);
-    },
-    handleDragEnd(event) {
-        console.log('drag ended');
-        if(_.isFunction(this.props.handleDragEnd)) this.props.handleDragEnd(event);
-    },
     render() {
         var cx = React.addons.classSet;
         var classes = cx({
@@ -36,11 +28,8 @@ var Menu = React.createClass({
         var menuItems = this.props.items.map(function(item, index) {
             return (
                 <li 
-                    draggable="true"
                     key={"item_no_"+index} 
                     className={this.props.selectedItem===item?"pure-menu-selected":""}
-                    onDragStart={this.handleDragStart.bind(this,item)}
-                    onDragEnd={this.handleDragEnd}
                 >
                     <a href="#">{item}</a>
                 </li>

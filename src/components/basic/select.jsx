@@ -21,7 +21,8 @@ var Select = React.createClass({
             );
         })
         return (
-            <select>
+            <select
+                style={{width: 150}}>
                 {options}
             </select>
         );

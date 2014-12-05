@@ -63,11 +63,11 @@ var RightContainer = React.createClass({
                         selectedIndex={0}
                     >
                         <TabList>
-                            <Tab>Properties</Tab>
                             <Tab>Styles</Tab>
+                            <Tab>Properties</Tab>
                         </TabList>
-                        <TabPanel>Properties like id, classname etc.</TabPanel>
                         <TabPanel>Styles like css styles like color, width, height etc.</TabPanel>
+                        <TabPanel>Properties like id, classname etc.</TabPanel>
                     </Tabs>
                 </div>
                 <hr/>

@@ -24,7 +24,6 @@ var Menu = React.createClass({
             "pure-menu-open": true,
             "pure-menu-horizontal": this.props.horizontal || !this.props.vertical
         });
-
         var menuItems = this.props.items.map(function(item, index) {
             return (
                 <MenuItem 

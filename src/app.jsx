@@ -54,8 +54,18 @@ var defaultPostion = { top: 0, left: 0 };
 var history = new History({
         data: [
             {name: 'basic/button', position: defaultPostion, props: {}},
-            {name: 'basic/select', position: {top: 100, left: 100}, props: {}},
-            {name: 'basic/table', position: {top: 0, left: 300}, props: {}}
+            {name: 'basic/select', position: {top: 30, left: 0}, props: {}},
+            {name: 'basic/table', position: {top: 0, left: 200}, props: {}},
+            // {name: 'custom/photogrid', position: {top: 200, left: 300}, 
+            //     props: {
+            //         data: [
+            //             'http://lorempixel.com/400/400/',
+            //             'http://lorempixel.com/500/700/',
+            //             'http://lorempixel.com/600/500/',
+            //             'http://lorempixel.com/600/800/'
+            //         ]
+            //     },
+            // }
         ]
     }, render);
 

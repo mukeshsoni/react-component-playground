@@ -9,7 +9,7 @@ var Avatar = React.createClass({
 
 	render: function() {
 		return (
-			<div className="avatar avatar-wrap--space left">
+			<div className="avatar">
 		        <img className="avatar-image" alt="" src={this.props.src} />
 		    </div>
 		);
