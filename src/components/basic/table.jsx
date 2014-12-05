@@ -21,6 +21,8 @@ var Table = React.createClass({
         };
     },
     render() {
+        var style = _.merge({}, this.props.style);
+
         var cx = React.addons.classSet;
         var classes = cx({
             "pure-table": true,
@@ -43,7 +45,7 @@ var Table = React.createClass({
         }, this);
 
         return (
-            <table className={classes}>
+            <table className={classes} style={style}>
                 <thead>
                     <tr>
                         {headers}

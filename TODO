@@ -1,7 +1,8 @@
  ✔ Ability to remove element on the playground by clicking close button on top right @done (14-12-05 18:53)
- ☐ Snap to grid checkbox for draggable components
- ☐ Make the elements on the playground non clickable by default. Only make them clickable in 'preview mode'
- ☐ When element is dragged from right menu to playground, show image of the component as dragged element
+ ✔ Snap to grid checkbox for draggable components @done (14-12-05 23:21)
+ ✔ Make the elements on the playground non clickable by default. Only make them clickable in 'preview mode' @done (14-12-05 23:21)
+ ✔ When element is dragged from right menu to playground, show image of the component as dragged element @done (14-12-05 23:21)
+ ☐ Allow css properties of components to be changed (in the right container)
  ☐ Fix the z-index problem (Some components go below another component even when dragged and dropped over them)
  ☐ Show coordinates on top left of the dragged component
  ☐ Show a list of history items in a pane and let the user jump to any state

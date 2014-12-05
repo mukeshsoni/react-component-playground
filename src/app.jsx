@@ -52,6 +52,7 @@ function redo(currentCursor) {
 
 var defaultPostion = { top: 0, left: 0 };
 var history = new History({
+        selectedComponentIndex: -100,
         data: [
             {name: 'basic/button', position: defaultPostion, props: {}},
             {name: 'basic/select', position: {top: 30, left: 0}, props: {}},

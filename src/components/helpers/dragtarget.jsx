@@ -29,7 +29,9 @@ var DragTarget = React.createClass({
                             startLeft: this.props.left,
                             startTop: this.props.top,
                             startPageX: e.pageX,
-                            startPageY: e.pageY
+                            startPageY: e.pageY,
+                            width: e.target.offsetWidth,
+                            height: e.target.offsetHeight
                         }
                     };
                 }
@@ -55,7 +57,7 @@ var DragTarget = React.createClass({
             this.setState({showCloseButton: false});
         }
     },
-    handleClick: function() {
+    handleClick: function(e) {
         typeof this.props.onComponentClick === 'function' && this.props.onComponentClick(this.props.id);
     },
     render: function() {

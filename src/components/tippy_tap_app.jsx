@@ -23,7 +23,8 @@ var TippyTapApp = React.createClass({
         return {
             previewMode: false,
             currentHistoryIndex: 0,
-            snapToGrid: false
+            snapToGrid: false,
+            selectedComponentStyle: {}
         };
     },
     handleUndoClick: function() {
@@ -39,6 +40,19 @@ var TippyTapApp = React.createClass({
         this.setState({
             snapToGrid: e.target.checked
         });
+    },
+    handleStyleChange: function(newStyle) {
+        var data = this.props.cursor.get(['data']);
+        var selectedComponentIndex = this.props.cursor.get(['selectedComponentIndex']);
+        var selectedComponentProps = data.getIn([selectedComponentIndex, 'props']);
+
+        if(selectedComponentProps) {
+            selectedComponentProps.update(function(oldValue) {
+                var oldStyle = oldValue.get('style');
+                if(!oldStyle) oldStyle = Immutable.Map();
+                return oldValue.set('style', oldStyle.merge(Immutable.fromJS(newStyle)));
+            });
+        }
     },
     render: function() {
         var previewButtonStyle = {
@@ -65,8 +79,10 @@ var TippyTapApp = React.createClass({
                         snapToGrid={this.state.snapToGrid}
                         cursor={this.props.cursor}
                         previewMode={this.state.previewMode}
+                        selectedComponentStyle={this.state.selectedComponentStyle}
                         />
                     <RightContainer
+                        onStyleChange={this.handleStyleChange}
                         componentList={componentListForListing} />
                 </div>
             </div>

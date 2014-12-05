@@ -18,8 +18,7 @@ var Playground = React.createClass({
     getDefaultProps: function() {
         return {
             onItemDropWithOtheComponent: emptyFunction,
-            onCloseClick: emptyFunction,
-            selectedItemIndex: -1
+            onCloseClick: emptyFunction
         };
     },
     getInitialState: function() {
@@ -28,14 +27,16 @@ var Playground = React.createClass({
         };
     },
     componentDidMount: function() {
-        window.addEventListener('keydown', this.handleKeyDown);
+        // TODO - this listens on backspace everywhere. even in input fields. not happening
+        // window.addEventListener('keydown', this.handleKeyDown);
     },
     handleKeyDown: function(e) {
         switch(e.which) {
             case 8: // backspace
             case 127: // delete
                 e.preventDefault();
-                this.handleComponentRemoveClick(this.state.selectedItemIndex);
+                var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
+                this.handleComponentRemoveClick(selectedComponentIndex);
                 break;
             default:
                 // do nothing
@@ -60,7 +61,7 @@ var Playground = React.createClass({
                             props: {}
                         }));
                     });
-                }
+                },
             }
         });
 
@@ -75,8 +76,19 @@ var Playground = React.createClass({
                         top = Math.round(top / 32) * 32;
                     }
 
+                    if(left < 0) left = 0;
+                    if(top < 0) top = 0;
+
+                    if(left + item.width > e.target.offsetWidth) {
+                        left = e.target.offsetWidth - item.width;
+                    }
+
+                    if(top + item.height > e.target.offsetHeight) {
+                        height = e.target.offsetHeight - item.height
+                    }
+                    
                     this.moveBox(item.id, left, top);
-                }
+                },
             }
         });
     },
@@ -93,8 +105,8 @@ var Playground = React.createClass({
         });
     },
     selectItem: function(index) {
-        this.setState({
-            selectedItemIndex: index
+        this.props.cursor.update(function(oldValue) {
+            return oldValue.set('selectedComponentIndex', index);
         });
     },
     render() {
@@ -115,12 +127,15 @@ var Playground = React.createClass({
             playgroundStyle.backgroundColor = 'darkkhaki';
         }
 
+var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
+
         var components = this.props.cursor.get('data').toJS();
         var dragTargets = components.map(function(component, index) {
-            var ui = React.createElement(uidata[component.name].comp, uidata[component.name].props || component.props || {});
+            var ui = React.createElement(uidata[component.name].comp, component.props || {});
+
             return (
                 <DragTarget
-                    selected={this.state.selectedItemIndex===index}
+                    selected={selectedComponentIndex===index}
                     onComponentClick={this.selectItem}
                     previewMode={this.props.previewMode}
                     id={index}

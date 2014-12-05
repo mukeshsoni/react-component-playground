@@ -15,12 +15,16 @@ var Button = React.createClass({
         return {
             type: 'button',
             label: 'Press Me',
-            isDisabled: false
+            isDisabled: false,
+            style: {}
         };
     },
 	render() {
+        var style = _.merge({}, this.props.style);
+
 		return (
 			<button 
+                style={style}
                 className="pure-button pure-button-primary"
                 type={this.props.type}
                 disabled={this.props.isDisabled}>

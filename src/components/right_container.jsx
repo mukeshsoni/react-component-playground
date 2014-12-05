@@ -18,6 +18,22 @@ var Menu = require('./menu.jsx');
 
 var RightContainer = React.createClass({
     getDefaultProps: () => { componentList: {} },
+    handleStyleChange: function(e) {
+        var newStyle = {
+            width: parseInt(this.refs.styleWidth.getDOMNode().value, 10),
+            height: parseInt(this.refs.styleHeight.getDOMNode().value, 10)
+        };
+
+        typeof this.props.onStyleChange === 'function' && this.props.onStyleChange(newStyle);
+    },
+    handleStyleChange: function(e) {
+        var newStyle = {
+            width: parseInt(this.refs.styleWidth.getDOMNode().value, 10),
+            height: parseInt(this.refs.styleHeight.getDOMNode().value, 10)
+        };
+
+        typeof this.props.onStyleChange === 'function' && this.props.onStyleChange(newStyle);
+    },
     render: function() {
         var index = 0;
         var self = this;
@@ -54,6 +70,10 @@ var RightContainer = React.createClass({
             );
         }); //.toJS();
 
+        var styleInputStyle ={
+            width: 50
+        };
+
         return (
             <div style={style} className="pure-u-7-24 right-container">
                 <div className="right-container-top" style={{height:"300px"}}>
@@ -66,7 +86,20 @@ var RightContainer = React.createClass({
                             <Tab>Styles</Tab>
                             <Tab>Properties</Tab>
                         </TabList>
-                        <TabPanel>Styles like css styles like color, width, height etc.</TabPanel>
+                        <TabPanel>
+                            <label>Width: </label>
+                            <input 
+                                style={styleInputStyle} 
+                                ref='styleWidth'
+                                onChange={this.handleStyleChange}
+                                ></input>
+                            <label>Height: </label>
+                            <input 
+                                style={styleInputStyle} 
+                                ref='styleHeight'
+                                onChange={this.handleStyleChange}
+                                ></input>
+                        </TabPanel>
                         <TabPanel>Properties like id, classname etc.</TabPanel>
                     </Tabs>
                 </div>
