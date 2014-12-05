@@ -30,15 +30,15 @@ var Playground = React.createClass({
     configureDragDrop(registerType) {
         registerType(ItemTypes.ITEM, {
             dropTarget: {
-                acceptDrop(item) {
+                acceptDrop(item, e) {
                     var data = this.props.cursor.get(['data']);
 
                     data.update(function(oldValue) {
                         return oldValue.push(Immutable.fromJS({
                             name: item.name,
                             position: {
-                                left: 0,
-                                top: 0
+                                left: e.clientX,
+                                top: e.clientY
                             },
                             props: {}
                         }));

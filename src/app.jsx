@@ -48,7 +48,8 @@ var defaultPostion = { top: 0, left: 0 };
 var history = new History({
         data: [
             {name: 'basic/button', position: defaultPostion, props: {}},
-            {name: 'basic/select', position: defaultPostion, props: {}}
+            {name: 'basic/select', position: {top: 100, left: 100}, props: {}},
+            {name: 'basic/table', position: {top: 0, left: 300}, props: {}}
         ]
     }, render);
 
