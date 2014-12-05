@@ -58,7 +58,8 @@ var Playground = React.createClass({
                                 left: e.clientX,
                                 top: e.clientY
                             },
-                            props: {}
+                            props: {},
+                            supportedStyles: uidata[item.name].supportedStyles
                         }));
                     });
                 },
@@ -128,6 +129,7 @@ var Playground = React.createClass({
         }
 
 var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
+var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]);
 
         var components = this.props.cursor.get('data').toJS();
         var dragTargets = components.map(function(component, index) {

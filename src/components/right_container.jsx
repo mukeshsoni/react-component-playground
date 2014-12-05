@@ -19,22 +19,17 @@ var Menu = require('./menu.jsx');
 var RightContainer = React.createClass({
     getDefaultProps: () => { componentList: {} },
     handleStyleChange: function(e) {
-        var newStyle = {
-            width: parseInt(this.refs.styleWidth.getDOMNode().value, 10),
-            height: parseInt(this.refs.styleHeight.getDOMNode().value, 10)
-        };
+        if(typeof this.props.onStyleChange === 'function') {
+            var newStyle = _.reduce(this.props.selectedComponent.supportedStyles, function(acc, supportedStyle) {
+                acc[supportedStyle] = this.refs['style'+supportedStyle].getDOMNode().value;
+                return acc;
+            }, {}, this);
 
-        typeof this.props.onStyleChange === 'function' && this.props.onStyleChange(newStyle);
-    },
-    handleStyleChange: function(e) {
-        var newStyle = {
-            width: parseInt(this.refs.styleWidth.getDOMNode().value, 10),
-            height: parseInt(this.refs.styleHeight.getDOMNode().value, 10)
-        };
-
-        typeof this.props.onStyleChange === 'function' && this.props.onStyleChange(newStyle);
+            this.props.onStyleChange(newStyle);
+        }
     },
     render: function() {
+
         var index = 0;
         var self = this;
         var style = {
@@ -43,7 +38,26 @@ var RightContainer = React.createClass({
             borderLeft: '2px dotted tomato'
         };
 
-        // how the below code would have worked if our component understood just Immutables
+        // let's fix the style input box
+        var styleInputStyle ={
+            width: 50
+        };
+        var styleDivIndex = 0;
+        var supportedStyles = _.map(this.props.selectedComponent.supportedStyles, function(supportedStyle) {
+            styleDivIndex++;
+            return (
+                <div style={{display: 'inline-block'}} key={'style_div_'+styleDivIndex}>
+                    <label>{supportedStyle+': '}</label>
+                    <input 
+                        style={styleInputStyle} 
+                        ref={'style'+supportedStyle}
+                        onChange={this.handleStyleChange}
+                        ></input>
+                </div>
+            );
+        }, this);
+
+        // the tab panels for components to be dragged and dropped
         var tabPanelIndex = 0;
         var componentViews = _.map(this.props.componentList, function(componentItems, componentType) {
             tabPanelIndex++;
@@ -70,9 +84,6 @@ var RightContainer = React.createClass({
             );
         }); //.toJS();
 
-        var styleInputStyle ={
-            width: 50
-        };
 
         return (
             <div style={style} className="pure-u-7-24 right-container">
@@ -87,18 +98,7 @@ var RightContainer = React.createClass({
                             <Tab>Properties</Tab>
                         </TabList>
                         <TabPanel>
-                            <label>Width: </label>
-                            <input 
-                                style={styleInputStyle} 
-                                ref='styleWidth'
-                                onChange={this.handleStyleChange}
-                                ></input>
-                            <label>Height: </label>
-                            <input 
-                                style={styleInputStyle} 
-                                ref='styleHeight'
-                                onChange={this.handleStyleChange}
-                                ></input>
+                            {supportedStyles}
                         </TabPanel>
                         <TabPanel>Properties like id, classname etc.</TabPanel>
                     </Tabs>

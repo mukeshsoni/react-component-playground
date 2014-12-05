@@ -54,9 +54,24 @@ var defaultPostion = { top: 0, left: 0 };
 var history = new History({
         selectedComponentIndex: -100,
         data: [
-            {name: 'basic/button', position: defaultPostion, props: {}},
-            {name: 'basic/select', position: {top: 30, left: 0}, props: {}},
-            {name: 'basic/table', position: {top: 0, left: 200}, props: {}},
+            {
+                name: 'basic/button', 
+                position: defaultPostion, 
+                props: {},
+                supportedStyles: ['width', 'height', 'backgroundColor'],
+            },
+            {
+                name: 'basic/select', 
+                position: {top: 30, left: 0}, 
+                props: {},
+                supportedStyles: ['width', 'backgroundColor'],
+            },
+            {
+                name: 'basic/table', 
+                position: {top: 0, left: 200}, 
+                props: {}, 
+                supportedStyles: ['width', 'height', 'backgroundColor'],
+            },
             // {name: 'custom/photogrid', position: {top: 200, left: 300}, 
             //     props: {
             //         data: [

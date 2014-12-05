@@ -22,7 +22,7 @@ var MenuItem = React.createClass({
                 beginDrag() {
                     return {
                         item: {
-                          name: this.props.item
+                            name: this.props.item
                         },
                         dragPreview: this.getPreloadedImage(uidata[this.props.item].dragImage)
                     };

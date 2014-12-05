@@ -58,7 +58,13 @@ var TippyTapApp = React.createClass({
         var previewButtonStyle = {
             backgroundColor: this.state.previewMode ? 'green' : 'red'
         };
-
+var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
+var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]);
+if(selectedComponent) {
+    selectedComponent = selectedComponent.toJS();
+} else {
+    selectedComponent = {};
+}
         return (
             <div>
                 <header style={{marginBottom: 10, marginLeft: 10}}>
@@ -83,6 +89,7 @@ var TippyTapApp = React.createClass({
                         />
                     <RightContainer
                         onStyleChange={this.handleStyleChange}
+                        selectedComponent={selectedComponent}
                         componentList={componentListForListing} />
                 </div>
             </div>
