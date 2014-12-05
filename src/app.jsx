@@ -29,7 +29,13 @@ function handleRedoClick() {
 }
 
 function render(cursor) {
-    React.render(<TippyTapApp onUndoClick={handleUndoClick} onRedoClick={handleRedoClick} cursor={cursor} />, document.getElementById('container')); // jshint ignore:line 
+    var undoCount = history ? history.history.count() : 0;
+    var redoCount = redos.length;
+
+    React.render(<TippyTapApp 
+                    undoCount={undoCount}
+                    redoCount={redoCount}
+                    onUndoClick={handleUndoClick} onRedoClick={handleRedoClick} cursor={cursor} />, document.getElementById('container')); // jshint ignore:line 
 }
 
 var redos = [];

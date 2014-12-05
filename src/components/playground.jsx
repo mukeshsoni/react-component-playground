@@ -24,7 +24,7 @@ var Playground = React.createClass({
     },
     getInitialState: function() {
         return {
-            hideSourceOnDrag: false 
+            hideSourceOnDrag: true
         };
     },
     componentDidMount: function() {
@@ -67,9 +67,13 @@ var Playground = React.createClass({
         registerType(ItemTypes.BOX, {
             dropTarget: {
                 acceptDrop(item, e) {
-                    console.log('item dropped: ', item);
                     var left = Math.round(item.startLeft + (e.pageX - item.startPageX)),    
                         top = Math.round(item.startTop + (e.pageY - item.startPageY));
+
+                    if (this.props.snapToGrid) {
+                        left = Math.round(left / 32) * 32;
+                        top = Math.round(top / 32) * 32;
+                    }
 
                     this.moveBox(item.id, left, top);
                 }

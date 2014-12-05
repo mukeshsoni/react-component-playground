@@ -22,7 +22,8 @@ var TippyTapApp = React.createClass({
     getInitialState: function() {
         return {
             previewMode: false,
-            currentHistoryIndex: 0
+            currentHistoryIndex: 0,
+            snapToGrid: false
         };
     },
     handleUndoClick: function() {
@@ -34,6 +35,11 @@ var TippyTapApp = React.createClass({
     togglePreviewMode: function() {
         this.setState({previewMode: !this.state.previewMode});
     },
+    toggleSnapToGrid: function(e) {
+        this.setState({
+            snapToGrid: e.target.checked
+        });
+    },
     render: function() {
         var previewButtonStyle = {
             backgroundColor: this.state.previewMode ? 'green' : 'red'
@@ -42,13 +48,21 @@ var TippyTapApp = React.createClass({
         return (
             <div>
                 <header style={{marginBottom: 10, marginLeft: 10}}>
-                    <button onClick={this.handleUndoClick}>Undo</button>
-                    <button onClick={this.handleRedoClick}>Redo</button>
+                    <button onClick={this.handleUndoClick} disabled={this.props.undoCount===0}>Undo</button>
+                    <button onClick={this.handleRedoClick} disabled={this.props.redoCount===0}>Redo</button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button style={previewButtonStyle} onClick={this.togglePreviewMode}>Preview Mode</button>
+                    <input type='checkbox'
+                            style={{marginLeft: 20}}
+                            checked={this.state.snapToGrid}
+                            onChange={this.toggleSnapToGrid}
+                        >
+                        &nbsp;&nbsp;Snap to grid
+                    </input>
                 </header>
                 <div className='pure-g'>
                     <Playground
+                        snapToGrid={this.state.snapToGrid}
                         cursor={this.props.cursor}
                         previewMode={this.state.previewMode}
                         />
