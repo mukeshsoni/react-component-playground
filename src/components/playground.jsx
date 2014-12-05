@@ -27,6 +27,23 @@ var Playground = React.createClass({
             hideSourceOnDrag: false 
         };
     },
+    componentDidMount: function() {
+        window.addEventListener('keydown', this.handleKeyDown);
+    },
+    handleKeyDown: function(e) {
+        switch(e.which) {
+            case 8: // backspace
+            case 127: // delete
+                e.preventDefault();
+                this.handleComponentRemoveClick(this.state.selectedItemIndex);
+                break;
+            default:
+                // do nothing
+        }
+    },
+    componentWillUnmount: function() {
+        window.removeEventListener('keydown', this.handleKeyDown);
+    },
     configureDragDrop(registerType) {
         registerType(ItemTypes.ITEM, {
             dropTarget: {
@@ -71,6 +88,11 @@ var Playground = React.createClass({
             return oldValue.splice(index, 1);
         });
     },
+    selectItem: function(index) {
+        this.setState({
+            selectedItemIndex: index
+        });
+    },
     render() {
         var playgroundStyle = {
             padding: 36,
@@ -94,6 +116,8 @@ var Playground = React.createClass({
             var ui = React.createElement(uidata[component.name].comp, uidata[component.name].props || component.props || {});
             return (
                 <DragTarget
+                    selected={this.state.selectedItemIndex===index}
+                    onComponentClick={this.selectItem}
                     previewMode={this.props.previewMode}
                     id={index}
                     hideSourceOnDrag={this.state.hideSourceOnDrag}

@@ -4,35 +4,9 @@ var React = require('react/addons');
 var emptyFunction = require('react/lib/emptyFunction');
 var ItemTypes = require('./../../js/itemtypes.js');
 var { DragDropMixin, DropEffects } = require('react-dnd');
-/* This component makes its children a drag target. Example:
- *
- *     <DragTarget onDrop={this.handleDrop}>Drag to me</DragTarget>
- *
- *     ...
- *
- *     handleDrop: function(e) {
- *         this.addImages(e.nativeEvent.dataTransfer.files);
- *     }
- *
- * Now "Drag to me" will be a drag target - when something is dragged over it,
- * the element will become partially transparent as a visual indicator that
- * it's a target.
- */
-// TODO(joel) - indicate before the hover is over the target that it's possible
-// to drag into the target. This would (I think) require a high level handler -
-// like on Perseus itself, waiting for onDragEnter, then passing down the
-// event. Sounds like a pain. Possible workaround - create a div covering the
-// entire page...
-//
-// Other extensions:
-// * custom styles for global drag and dragOver
-// * only respond to certain types of drags (only images for instance)!
-
-// require('../../../styles/drag_target.css');
 
 var handleClassNameCounter = 0;
 var closeButtonPngPath = require('../../images/close_button.png');
-console.log('close button: ', closeButtonPngPath);
 
 var DragTarget = React.createClass({
     mixins: [DragDropMixin],
@@ -48,7 +22,6 @@ var DragTarget = React.createClass({
         registerType(ItemTypes.BOX, {
             dragSource: {
                 beginDrag(e) {
-                    console.log('beginning drag: ', DropEffects.MOVE, this.props.id);
                     return {
                         effectAllowed: DropEffects.MOVE,
                         item: {
@@ -74,13 +47,16 @@ var DragTarget = React.createClass({
     },
     handleMouseEnter: function() {
         if(!this.state.showCloseButton) {
-            this.setState({showCloseButton: true});
+            this.setState({showCloseButton: true && !this.props.previewMode});
         }
     },
     handleMouseLeave: function() {
         if(this.state.showCloseButton) {
             this.setState({showCloseButton: false});
         }
+    },
+    handleClick: function() {
+        typeof this.props.onComponentClick === 'function' && this.props.onComponentClick(this.props.id);
     },
     render: function() {
         var { isDragging } = this.getDragState(ItemTypes.BOX),
@@ -95,7 +71,8 @@ var DragTarget = React.createClass({
             left: this.props.left,
             top: this.props.top,
             opacity: 1,
-            cursor: 'url(https://mail.google.com/mail/images/2/openhand.cur) 8 8, move'
+            border: this.props.selected ? '1px solid seagreen' : 'none',
+            cursor: !this.props.previewMode ? 'move' : ''
         };
 
         if(isDragging) {
@@ -118,6 +95,7 @@ var DragTarget = React.createClass({
 
         return (
             <div 
+                onClick={this.handleClick}
                 {...dragSourceProps}
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
