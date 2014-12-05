@@ -94,19 +94,24 @@ var DragTarget = React.createClass({
             position: 'absolute',
             left: this.props.left,
             top: this.props.top,
-            border: '1px dashed gray',
-            padding: '0.5rem',
+            opacity: 1,
             cursor: 'url(https://mail.google.com/mail/images/2/openhand.cur) 8 8, move'
         };
-        // if(isDragging) {
-        //     dragStyle.cursor = 'url(https://mail.google.com/mail/images/2/closedhand.cur), move';
-        // }
+
+        if(isDragging) {
+            dragStyle.opacity = 0.5;
+        }
+
         var closeButtonStyles = {
             width: "20px",
             height: "20px",
             position: "absolute",
             right: 0,
             top: 0
+        };
+
+        var innerDivStyle = {
+            pointerEvents: this.props.previewMode ? 'all' : 'none'
         };
 
         return (
@@ -116,7 +121,7 @@ var DragTarget = React.createClass({
                 onMouseLeave={this.handleMouseLeave}
                 style={dragStyle}>
                 {this.state.showCloseButton ? <img onClick={this.handleCloseClick} src={closeButtonPngPath} style={closeButtonStyles} /> : ''}
-                <div style={{pointerEvents: 'none'}}>
+                <div style={innerDivStyle}>
                     {this.props.children}
                 </div>
             </div>

@@ -29,7 +29,6 @@ function handleRedoClick() {
 }
 
 function render(cursor) {
-    console.log('top level render called');
     React.render(<TippyTapApp onUndoClick={handleUndoClick} onRedoClick={handleRedoClick} cursor={cursor} />, document.getElementById('container')); // jshint ignore:line 
 }
 

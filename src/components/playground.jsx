@@ -10,14 +10,23 @@ var emptyFunction = require('react/lib/emptyFunction');
 var ItemTypes = require('./../js/itemtypes.js');
 var { DragDropMixin } = require('react-dnd');
 
-// var imageURL = './../images/tippytap.jpg';
-
-var UI = require('./../js/uidata.js');
-
+var uidata = require('./../js/uidata.js');
 var DragTarget = require('./helpers/dragtarget.jsx');
 
 var Playground = React.createClass({
     mixins: [DragDropMixin],
+    getDefaultProps: function() {
+        return {
+            onItemDropWithOtheComponent: emptyFunction,
+            onCloseClick: emptyFunction,
+            selectedItemIndex: -1
+        };
+    },
+    getInitialState: function() {
+        return {
+            hideSourceOnDrag: false 
+        };
+    },
     configureDragDrop(registerType) {
         registerType(ItemTypes.ITEM, {
             dropTarget: {
@@ -34,7 +43,6 @@ var Playground = React.createClass({
                             props: {}
                         }));
                     });
-                    console.log('You dropped ' + item.name + '!');
                 }
             }
         });
@@ -57,19 +65,6 @@ var Playground = React.createClass({
         position.update(function(oldValue) {
             return oldValue.set('left', left).set('top', top);
         });
-    },
-    // ES6 ftw. using function declaration concise representation
-    // and arrow functions!
-    getDefaultProps: function() {
-        return {
-            onItemDropWithOtheComponent: emptyFunction,
-            onCloseClick: emptyFunction
-        };
-    },
-    getInitialState: function() {
-        return {
-            hideSourceOnDrag: false 
-        };
     },
     handleComponentRemoveClick: function(index) {
         this.props.cursor.get('data').update(function(oldValue) {
@@ -96,9 +91,10 @@ var Playground = React.createClass({
 
         var components = this.props.cursor.get('data').toJS();
         var dragTargets = components.map(function(component, index) {
-            var ui = React.createElement(UI[component.name].comp, UI[component.name].props || component.props || {});
+            var ui = React.createElement(uidata[component.name].comp, uidata[component.name].props || component.props || {});
             return (
                 <DragTarget
+                    previewMode={this.props.previewMode}
                     id={index}
                     hideSourceOnDrag={this.state.hideSourceOnDrag}
                     onCloseClick={this.handleComponentRemoveClick}
