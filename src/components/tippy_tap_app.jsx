@@ -41,7 +41,7 @@ var TippyTapApp = React.createClass({
 
         return (
             <div>
-                <header>
+                <header style={{marginBottom: 10, marginLeft: 10}}>
                     <button onClick={this.handleUndoClick}>Undo</button>
                     <button onClick={this.handleRedoClick}>Redo</button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

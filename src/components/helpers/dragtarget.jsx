@@ -114,9 +114,11 @@ var DragTarget = React.createClass({
             pointerEvents: this.props.previewMode ? 'all' : 'none'
         };
 
+        var dragSourceProps = this.props.previewMode ? {} : this.dragSourceFor(ItemTypes.BOX);
+
         return (
             <div 
-                {...this.dragSourceFor(ItemTypes.BOX)}
+                {...dragSourceProps}
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
                 style={dragStyle}>
