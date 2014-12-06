@@ -70,10 +70,11 @@ var DragTarget = React.createClass({
 
         var dragStyle = {
             position: 'absolute',
-            left: this.props.left,
-            top: this.props.top,
+            left: this.props.position.left,
+            top: this.props.position.top,
+            zIndex: this.props.position.zIndex || 0,
             opacity: 1,
-            border: this.props.selected ? '1px solid seagreen' : 'none',
+            border: this.props.selected && !this.props.previewMode ? '1px solid seagreen' : 'none',
             cursor: !this.props.previewMode ? 'move' : ''
         };
 

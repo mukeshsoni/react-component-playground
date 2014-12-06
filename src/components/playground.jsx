@@ -13,6 +13,7 @@ var { DragDropMixin } = require('react-dnd');
 var uidata = require('./../js/uidata.js');
 var DragTarget = require('./helpers/dragtarget.jsx');
 
+var lastZIndex = 0;
 var Playground = React.createClass({
     mixins: [DragDropMixin],
     getDefaultProps: function() {
@@ -77,16 +78,16 @@ var Playground = React.createClass({
                         top = Math.round(top / 32) * 32;
                     }
 
-                    if(left < 0) left = 0;
-                    if(top < 0) top = 0;
+                    // if(left < 0) left = 0;
+                    // if(top < 0) top = 0;
 
-                    if(left + item.width > e.target.offsetWidth) {
-                        left = e.target.offsetWidth - item.width;
-                    }
+                    // if(left + item.width > e.target.offsetWidth) {
+                    //     left = e.target.offsetWidth - item.width;
+                    // }
 
-                    if(top + item.height > e.target.offsetHeight) {
-                        height = e.target.offsetHeight - item.height
-                    }
+                    // if(top + item.height > e.target.offsetHeight) {
+                    //     height = e.target.offsetHeight - item.height
+                    // }
                     
                     this.moveBox(item.id, left, top);
                 },
@@ -97,7 +98,7 @@ var Playground = React.createClass({
         var data = this.props.cursor.get('data');
         var position = data.getIn([id, 'position']);
         position.update(function(oldValue) {
-            return oldValue.set('left', left).set('top', top);
+            return oldValue.set('left', left).set('top', top).set('zIndex', lastZIndex++);
         });
     },
     handleComponentRemoveClick: function(index) {
@@ -144,6 +145,7 @@ var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]
                     hideSourceOnDrag={this.state.hideSourceOnDrag}
                     onCloseClick={this.handleComponentRemoveClick}
                     key={'drop_target_'+index}
+                    position={component.position}
                     top={component.position.top}
                     left={component.position.left}>
                     <div>

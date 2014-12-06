@@ -7,3 +7,7 @@
  ☐ Show coordinates on top left of the dragged component
  ☐ Show a list of history items in a pane and let the user jump to any state
  ☐ Populate the current values of style attributes (width, height...) in th style box
+ ☐ Beautify.
+ ☐ Check if it's possible to integrate material-ui react components
+ ☐ Allow editing of other properties for a component (which can be passed as prop, like zDepth in case of a material-ui paper)
+

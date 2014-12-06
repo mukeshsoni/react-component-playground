@@ -9,7 +9,11 @@ var React = require('react/addons');
 var History = require('immutable-history');
 var uidata = require('./js/uidata.js');
 
-require('./css/main.css');
+
+// require('~material-ui/src/less/components');
+// require('~./../node_modules/material-ui/src/less/scaffolding.less');
+// require('~./../node_modules/material-ui/src/less/components.less');
+require('./css/main.less');
 
 // Export React so the devtools can find it
 (window !== window.top ? window.top : window).React = React;
@@ -70,7 +74,7 @@ window.addEventListener('keydown', function(e) {
     // 90 === 'z' and e.metaKey stands for 'Command' or 'Ctrl' key.
     // trying to catch command-z here. for undo.
     if(e.which === 90 && e.metaKey) {
-        history.undo();
+        e.shiftKey ? redo(history.cursor) : undo(history.cursor);
     }
 });
 

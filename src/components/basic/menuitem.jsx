@@ -38,7 +38,7 @@ var MenuItem = React.createClass({
                 {...this.dragSourceFor(ItemTypes.ITEM)}
                 className={this.props.selected?"pure-menu-selected":""}
                 >
-                <a href="#">{this.props.item}</a>
+                <a href="#">{this.props.item.split('/')[1]}</a>
             </li>
         );
     }
