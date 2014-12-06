@@ -21,7 +21,7 @@ var componentListForListing = _.reduce(uidata, function(result, value, key) {
 var TippyTapApp = React.createClass({
     getInitialState: function() {
         return {
-            previewMode: false,
+            previewMode: true,
             currentHistoryIndex: 0,
             snapToGrid: false,
             selectedComponentStyle: {}
@@ -54,17 +54,29 @@ var TippyTapApp = React.createClass({
             });
         }
     },
+    handlePropsChange: function(newProps) {
+        var selectedComponentIndex = this.props.cursor.get(['selectedComponentIndex']);
+        var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]);
+        
+
+        if(selectedComponent) {
+            selectedComponent.update(function(oldValue) {
+                return oldValue.set('props', Immutable.fromJS(newProps));
+            });
+        }  
+    },
     render: function() {
         var previewButtonStyle = {
             backgroundColor: this.state.previewMode ? 'green' : 'red'
         };
-var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
-var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]);
-if(selectedComponent) {
-    selectedComponent = selectedComponent.toJS();
-} else {
-    selectedComponent = {};
-}
+        var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
+        var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]);
+        if(selectedComponent) {
+            selectedComponent = selectedComponent.toJS();
+        } else {
+            selectedComponent = {};
+        }
+
         return (
             <div>
                 <header style={{marginBottom: 10, marginLeft: 10}}>
@@ -89,6 +101,7 @@ if(selectedComponent) {
                         />
                     <RightContainer
                         onStyleChange={this.handleStyleChange}
+                        onPropsChange={this.handlePropsChange}
                         selectedComponent={selectedComponent}
                         componentList={componentListForListing} />
                 </div>

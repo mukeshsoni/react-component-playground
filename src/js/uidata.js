@@ -1,14 +1,18 @@
 var React = require('react');
 var mui = require('material-ui');
 var PaperButton = mui.PaperButton;
+var RaisedButton = mui.RaisedButton;
+var FloatingActionButton = mui.FloatingActionButton;
 var Menu = mui.Menu;
 var Paper = mui.Paper;
 var Checkbox = mui.Checkbox;
 var RadioButton = mui.RadioButton;
 var Toggle = mui.Toggle;
+var DropDownMenu = mui.DropDownMenu;
+var materialInput = mui.Input;
 
 var UI = {
-    "basic/button": {
+    'basic/button': {
         comp: require('./../components/basic/button.jsx'),
         props: {
             style: {
@@ -19,18 +23,38 @@ var UI = {
         supportedStyles: ['width', 'height', 'backgroundColor'],
         dragImage: require('./../images/ghost-images/basic/button.png')
     },
-    "materialUI/paperbutton": {
-        comp: PaperButton,
+    'materialUI/RaisedButton': {
+        comp: RaisedButton,
         props: {
-            type: PaperButton.Types.FLAT,
             primary: true,
+            label: 'Press Me',
             style: {},
-            label: 'Default'
         },
         supportedStyles: [],
         dragImage: require('./../images/ghost-images/material-ui/button.png')
     },
-    "materialUI/checkbox": {
+    'materialUI/input': {
+        comp: materialInput,
+        props: {
+            style: {},
+            type: 'text',
+            name:'firstname',
+            placeholder:'First Name',
+            description:'Your first name as it appears on your credit card.'
+        },
+        supportedStyles: [],
+            dragImage: require('./../images/ghost-images/material-ui/input.png')
+    },
+    'materialUI/FloatingActionButton': {
+        comp: FloatingActionButton,
+        props: {
+            icon: 'action-grade',
+            style: {},
+        },
+        supportedStyles: [],
+        dragImage: require('./../images/ghost-images/material-ui/button.png')
+    },
+    'materialUI/checkbox': {
         comp: Checkbox,
         props: {
             name: 'not a simple checkbox',
@@ -40,7 +64,7 @@ var UI = {
         supportedStyles: [],
         dragImage: require('./../images/ghost-images/material-ui/checkbox.png')
     },
-    "materialUI/radiobutton": {
+    'materialUI/radiobutton': {
         comp: RadioButton,
         props: {
             name: 'not a simple radio button',
@@ -51,7 +75,7 @@ var UI = {
         supportedStyles: [],
         dragImage: require('./../images/ghost-images/material-ui/radiobutton.png')
     },
-    "materialUI/toggle": {
+    'materialUI/toggle': {
         comp: Toggle,
         props: {
             style: {},
@@ -70,7 +94,22 @@ var UI = {
             style: {}
         },
         supportedStyles: [],
-        dragImage: require('./../images/ghost-images/material-ui/material-menu.png')  
+        dragImage: require('./../images/ghost-images/material-ui/menu.png')  
+    },
+    'materialUI/dropdown': {
+        comp: DropDownMenu,
+        props: {
+            menuItems: [
+               { payload: '1', text: 'Never' },
+               { payload: '2', text: 'Every Night' },
+               { payload: '3', text: 'Weeknights' },
+               { payload: '4', text: 'Weekends' },
+               { payload: '5', text: 'Weekly' },
+            ],
+            style: {}
+        },
+        supportedStyles: {},
+        dragImage: require('./../images//ghost-images/material-ui/dropdown.png')
     },
     'materialUI/paper': {
         comp: Paper,
@@ -80,7 +119,7 @@ var UI = {
         supportedStyles: [],
         dragImage: require('./../images/ghost-images/material-ui/paper.png')  
     },
-    "basic/input": {
+    'basic/input': {
         comp: require('./../components/basic/input.jsx'),
         props: {
             style: {
@@ -92,7 +131,7 @@ var UI = {
         dragImage: require('./../images/ghost-images/basic/input.png')
     },
 
-    "basic/select": {
+    'basic/select': {
         comp: require('./../components/basic/select.jsx'),
         props: {
             style: {
@@ -102,7 +141,7 @@ var UI = {
         supportedStyles: ['width', 'backgroundColor'],
         dragImage: require('./../images/ghost-images/basic/select.png')
     },
-    "basic/table": {
+    'basic/table': {
         comp: require('./../components/basic/table.jsx'),
         props: {
             style: {
@@ -110,15 +149,15 @@ var UI = {
                 height: 300
             },
             data: [
-                [1, "Honda", "Accord", "2009"],
-                [1, "Toyota", "Camry", "2012"],
-                [3, "Hyndai", "Elentra", "2010"]
+                [1, 'Honda', 'Accord', '2009'],
+                [1, 'Toyota', 'Camry', '2012'],
+                [3, 'Hyndai', 'Elentra', '2010']
             ]
         },
         supportedStyles: ['width', 'height', 'backgroundColor'],
         dragImage: require('./../images/ghost-images/basic/table.png')
     },
-    "basic/menu": {
+    'basic/menu': {
         comp: require('./../components/basic/menu.jsx'),
         props: {
             style: {
@@ -129,7 +168,7 @@ var UI = {
         supportedStyles: ['width', 'height', 'backgroundColor'],
         dragImage: require('./../images/ghost-images/basic/menu.png')
     },
-    "basic/canvas": {
+    'basic/canvas': {
         comp: require('./../components/basic/canvas.jsx'),
         props: {
             style: {
@@ -140,7 +179,7 @@ var UI = {
         supportedStyles: ['width', 'height', 'backgroundColor'],
         dragImage: require('./../images/ghost-images/basic/canvas.png')
     },
-    "basic/avatar": {
+    'basic/avatar': {
         comp: require('./../components/basic/avatar/avatar.jsx'),
         props: {
             style: {
@@ -152,7 +191,7 @@ var UI = {
         supportedStyles: ['width', 'height', 'backgroundColor'],
         dragImage: require('./../images/ghost-images/basic/avatar.png')
     },
-    "custom/photogrid": {
+    'custom/photogrid': {
         comp: require('react-photo-grid'),
         props: {
             style: {},
@@ -166,9 +205,9 @@ var UI = {
         supportedStyles: ['width', 'height', 'backgroundColor'],
         dragImage: require('./../images/ghost-images/custom/photogrid.png')
     }
-    // "custom/details-pane": require('./../components/custom/details-pane/details-pane.jsx'),
-    // "custom/intl-tel-input": require('./../components/custom/intl-tel-input/intl-tel-input.jsx'),
-    // "custom/comment-widget": require('./../components/custom/comments-widget/comments-widget.jsx')
+    // 'custom/details-pane': require('./../components/custom/details-pane/details-pane.jsx'),
+    // 'custom/intl-tel-input': require('./../components/custom/intl-tel-input/intl-tel-input.jsx'),
+    // 'custom/comment-widget': require('./../components/custom/comments-widget/comments-widget.jsx')
 };
 
 module.exports = UI;

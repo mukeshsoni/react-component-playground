@@ -28,6 +28,16 @@ var RightContainer = React.createClass({
             this.props.onStyleChange(newStyle);
         }
     },
+    handlePropChange: function(e) {
+        if(typeof this.props.onStyleChange === 'function') {
+            var newProps = _.reduce(this.props.selectedComponent.props, function(acc, propValue, propName) {
+                acc[propName] = JSON.parse(this.refs['prop'+propName].getDOMNode().value);
+                return acc;
+            }, {}, this);
+
+            this.props.onPropsChange(newProps);
+        }
+    },
     render: function() {
 
         var index = 0;
@@ -53,6 +63,23 @@ var RightContainer = React.createClass({
                         style={styleInputStyle} 
                         ref={'style'+supportedStyle}
                         onChange={this.handleStyleChange}
+                        ></input>
+                </div>
+            );
+        }, this);
+
+        // the properties tab
+        var propDivIndex = 0;
+        var properties = _.map(this.props.selectedComponent.props, function(propValue, propName) {
+            propDivIndex++;
+            return (
+                <div key={'prop_div_'+propDivIndex}>
+                    <label>{propName+': '}</label>
+                    <input 
+                        style={{width: 500}}
+                        value={JSON.stringify(propValue)}
+                        ref={'prop'+propName}
+                        onChange={this.handlePropChange}
                         ></input>
                 </div>
             );
@@ -95,13 +122,16 @@ var RightContainer = React.createClass({
                         selectedIndex={0}
                     >
                         <TabList>
-                            <Tab>Styles</Tab>
                             <Tab>Properties</Tab>
+                            <Tab>Styles</Tab>
                         </TabList>
+                        <TabPanel>
+                            Properties like id, classname etc.
+                            {properties}
+                        </TabPanel>
                         <TabPanel>
                             {supportedStyles}
                         </TabPanel>
-                        <TabPanel>Properties like id, classname etc.</TabPanel>
                     </Tabs>
                 </div>
                 <hr/>
