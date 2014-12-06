@@ -9,7 +9,7 @@ How to try it out -
 
 ```
 $ npm install
-$ gulp
+$ npm start
 ```
 
-Go to the browser - `localhost:8000`
+Go to the link - [http://localhost:8080/webpack-dev-server/index.html](http://localhost:8080/webpack-dev-server/index.html)
