@@ -14,6 +14,7 @@ var Menu = React.createClass({
         };
     },
     render() {
+        var style = _.merge({}, this.props.style);
         var cx = React.addons.classSet;
         var classes = cx({
             "pure-menu": true,
@@ -37,7 +38,7 @@ var Menu = React.createClass({
         }, this);
 
         return (
-            <div className={classes}>
+            <div className={classes} style={style}>
                 {this.props.heading ? menuHeading : ''}
                 <ul>
                     {menuItems}

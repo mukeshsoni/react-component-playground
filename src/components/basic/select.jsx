@@ -15,6 +15,8 @@ var Select = React.createClass({
         };
     },
     render() {
+        var style = _.merge({width: 150}, this.props.style);
+
         var options = this.props.options.map(function(optionText, index) {
             return (
                 <option key={"option_no_"+index}>{optionText}</option>
@@ -22,7 +24,7 @@ var Select = React.createClass({
         })
         return (
             <select
-                style={{width: 150}}>
+                style={style}>
                 {options}
             </select>
         );

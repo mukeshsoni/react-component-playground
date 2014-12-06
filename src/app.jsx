@@ -7,6 +7,7 @@
 var Immutable = require('immutable');
 var React = require('react/addons');
 var History = require('immutable-history');
+var uidata = require('./js/uidata.js');
 
 require('./css/main.css');
 
@@ -32,10 +33,10 @@ function render(cursor) {
     var undoCount = history ? history.history.count() : 0;
     var redoCount = redos.length;
 
-    React.render(<TippyTapApp 
+    React.render(<TippyTapApp
                     undoCount={undoCount}
                     redoCount={redoCount}
-                    onUndoClick={handleUndoClick} onRedoClick={handleRedoClick} cursor={cursor} />, document.getElementById('container')); // jshint ignore:line 
+                    onUndoClick={handleUndoClick} onRedoClick={handleRedoClick} cursor={cursor} />, document.getElementById('container')); // jshint ignore:line
 }
 
 var redos = [];
@@ -51,43 +52,22 @@ function redo(currentCursor) {
 }
 
 var defaultPostion = { top: 0, left: 0 };
+var initialComponents = ['basic/button', 'basic/select', 'basic/table'];
+var data = _.map(initialComponents, function(component) {
+    return _.merge({
+        name: component,
+        position: defaultPostion
+    }, _.pick(uidata[component], 'props', 'supportedStyles'));
+});
+
 var history = new History({
         selectedComponentIndex: -100,
-        data: [
-            {
-                name: 'basic/button', 
-                position: defaultPostion, 
-                props: {},
-                supportedStyles: ['width', 'height', 'backgroundColor'],
-            },
-            {
-                name: 'basic/select', 
-                position: {top: 30, left: 0}, 
-                props: {},
-                supportedStyles: ['width', 'backgroundColor'],
-            },
-            {
-                name: 'basic/table', 
-                position: {top: 0, left: 200}, 
-                props: {}, 
-                supportedStyles: ['width', 'height', 'backgroundColor'],
-            },
-            // {name: 'custom/photogrid', position: {top: 200, left: 300}, 
-            //     props: {
-            //         data: [
-            //             'http://lorempixel.com/400/400/',
-            //             'http://lorempixel.com/500/700/',
-            //             'http://lorempixel.com/600/500/',
-            //             'http://lorempixel.com/600/800/'
-            //         ]
-            //     },
-            // }
-        ]
+        data: data
     }, render);
 
 
 window.addEventListener('keydown', function(e) {
-    // 90 === 'z' and e.metaKey stands for 'Command' or 'Ctrl' key. 
+    // 90 === 'z' and e.metaKey stands for 'Command' or 'Ctrl' key.
     // trying to catch command-z here. for undo.
     if(e.which === 90 && e.metaKey) {
         history.undo();

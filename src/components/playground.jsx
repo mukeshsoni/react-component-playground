@@ -58,7 +58,7 @@ var Playground = React.createClass({
                                 left: e.clientX,
                                 top: e.clientY
                             },
-                            props: {},
+                            props: uidata[item.name].props,
                             supportedStyles: uidata[item.name].supportedStyles
                         }));
                     });
@@ -94,7 +94,7 @@ var Playground = React.createClass({
         });
     },
     moveBox(id, left, top) {
-        var data = this.props.cursor.get(['data']);
+        var data = this.props.cursor.get('data');
         var position = data.getIn([id, 'position']);
         position.update(function(oldValue) {
             return oldValue.set('left', left).set('top', top);

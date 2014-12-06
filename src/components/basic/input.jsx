@@ -19,8 +19,11 @@ var Input = React.createClass({
         };
     },
     render() {
+        var style = _.merge({}, this.props.style);
+
         return (
             <input 
+                style={style}
                 type={this.props.type} 
                 placeholder={placeholderText[this.props.type]}
                 disabled={this.props.isDisabled}

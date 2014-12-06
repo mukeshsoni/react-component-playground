@@ -42,7 +42,7 @@ var TippyTapApp = React.createClass({
         });
     },
     handleStyleChange: function(newStyle) {
-        var data = this.props.cursor.get(['data']);
+        var data = this.props.cursor.get('data');
         var selectedComponentIndex = this.props.cursor.get(['selectedComponentIndex']);
         var selectedComponentProps = data.getIn([selectedComponentIndex, 'props']);
 

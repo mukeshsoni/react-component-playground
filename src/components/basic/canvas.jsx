@@ -2,23 +2,19 @@
  * @jsx React.DOM
  */
 
+var _ = require('lodash');
 var React = require('react/addons');
 
 var Canvas = React.createClass({
-    getDefaultProps: function() {
-        return {
-            style: {
-                style: {
+    render() {
+        var style = _.merge({
                     width: 400,
                     height: 400,
                     backgroundColor: 'lightgrey'
-                }
-            }
-        };
-    },
-    render() {
+                }, this.props.style);
+
         return (
-            <div {...this.props.style}>
+            <div style={style}>
                 {this.props.children}
             </div>
         );

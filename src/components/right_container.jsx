@@ -49,6 +49,7 @@ var RightContainer = React.createClass({
                 <div style={{display: 'inline-block'}} key={'style_div_'+styleDivIndex}>
                     <label>{supportedStyle+': '}</label>
                     <input 
+                        value={this.props.selectedComponent.props.style[supportedStyle]}
                         style={styleInputStyle} 
                         ref={'style'+supportedStyle}
                         onChange={this.handleStyleChange}
