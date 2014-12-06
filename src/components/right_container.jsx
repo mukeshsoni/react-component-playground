@@ -38,7 +38,12 @@ var RightContainer = React.createClass({
             }
 
             var newProps = _.reduce(propsObj, function(acc, propValue, propName) {
-                acc[propName] = JSON.parse(this.refs['prop'+propName].getDOMNode().value);
+                if(propValue == React.PropTypes.func) {
+                    acc[propName] = new Function(this.refs['prop'+propName].getDOMNode().value);
+                    // acc[propName] = eval(this.refs['prop'+propName].getDOMNode().value);
+                } else {
+                    acc[propName] = JSON.parse(this.refs['prop'+propName].getDOMNode().value);
+                }
                 return acc;
             }, {}, this);
 
@@ -91,6 +96,9 @@ var RightContainer = React.createClass({
                     switch(value) {
                         case React.PropTypes.func:
                             propType = 'function';
+                            // IMPORTANT - tricky business allowing people to input functions as strings.
+                            var functionString = propValue.toString();
+                            propValue = functionString.substring(functionString.indexOf("{") + 1, functionString.lastIndexOf("}"));
                             break;
                         case React.PropTypes.string:
                             propType = 'string';
@@ -113,7 +121,7 @@ var RightContainer = React.createClass({
                             <label>{propName+' ( ' + propType + ' ): '}</label>
                             <input 
                                 style={{width: 500}}
-                                value={JSON.stringify(propValue)}
+                                value={propType!=='function' ? JSON.stringify(propValue) : propValue}
                                 ref={'prop'+propName}
                                 onChange={this.handlePropChange}
                                 ></input>
@@ -181,7 +189,7 @@ var RightContainer = React.createClass({
                             <Tab>Styles</Tab>
                         </TabList>
                         <TabPanel>
-                            Properties like id, classname etc.
+                            Properties supported by the selected component
                             {properties}
                         </TabPanel>
                         <TabPanel>

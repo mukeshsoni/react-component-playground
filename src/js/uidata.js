@@ -67,6 +67,7 @@ var UI = {
     'materialUI/toggle': {
         comp: Toggle,
         props: {
+            onToggle: function() {console.log('hi')},
             style: {},
         },
         supportedStyles: [],

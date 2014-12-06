@@ -56,7 +56,7 @@ function redo(currentCursor) {
 }
 
 var defaultPostion = { top: 0, left: 0 };
-var initialComponents = ['basic/button', 'basic/select', 'basic/table'];
+var initialComponents = ['materialUI/toggle'];
 var data = _.map(initialComponents, function(component) {
     return _.merge({
         name: component,
