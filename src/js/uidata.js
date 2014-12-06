@@ -12,17 +12,6 @@ var DropDownMenu = mui.DropDownMenu;
 var materialInput = mui.Input;
 
 var UI = {
-    'basic/button': {
-        comp: require('./../components/basic/button.jsx'),
-        props: {
-            style: {
-                width: 100,
-                height: 30
-            }
-        },
-        supportedStyles: ['width', 'height', 'backgroundColor'],
-        dragImage: require('./../images/ghost-images/basic/button.png')
-    },
     'materialUI/RaisedButton': {
         comp: RaisedButton,
         props: {
@@ -118,6 +107,17 @@ var UI = {
         },
         supportedStyles: [],
         dragImage: require('./../images/ghost-images/material-ui/paper.png')  
+    },
+    'basic/button': {
+        comp: require('./../components/basic/button.jsx'),
+        props: {
+            style: {
+                width: 100,
+                height: 30
+            }
+        },
+        supportedStyles: ['width', 'height', 'backgroundColor'],
+        dragImage: require('./../images/ghost-images/basic/button.png')
     },
     'basic/input': {
         comp: require('./../components/basic/input.jsx'),
