@@ -113,18 +113,19 @@ var Playground = React.createClass({
     },
     render() {
         var playgroundStyle = {
+            margin: 10,
             padding: 36,
             minHeight: 700,
             overflowY: 'auto',
-            border: '1px dotted red',
-            backgroundColor: '#fff',
-            position: 'relative'
+            backgroundColor: 'white',
+            position: 'relative',
+            boxShadow: '0 0 10px #bebebe'
         };
 
         var dropState = this.getDropState(ItemTypes.ITEM);
 
         if (dropState.isHovering) {
-            playgroundStyle.backgroundColor = 'darkgreen';
+            playgroundStyle.backgroundColor = 'darkseagreen';
         } else if (dropState.isDragging) {
             playgroundStyle.backgroundColor = 'darkkhaki';
         }

@@ -62,8 +62,7 @@ var RightContainer = React.createClass({
         var self = this;
         var style = {
             padding: 20,
-            minHeight: 700,
-            borderLeft: '2px dotted tomato'
+            minHeight: 700
         };
 
         var supportedStyles = '';

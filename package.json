@@ -30,7 +30,7 @@
     "css-loader": "^0.9.0",
     "file-loader": "^0.8.1",
     "immutable": "^3.3.0",
-    "immutable-history": "^0.2.0",
+    "immutable-history": "git+https://git@github.com/mukeshsoni/immutable-history.git",
     "lodash": "^2.4.1",
     "material-ui": "^0.3.2",
     "purecss": "^0.5.0",

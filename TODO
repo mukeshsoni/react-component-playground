@@ -13,4 +13,6 @@
  ☐ clientX and clientY for the dropped items does not give the correct coordinates. Need to find the correct solution.
  ☐ Replace our own page controls (like buttons) to material-ui controls. profit!
  ☐ The property input boxes can be converted to typeahead boxes for string values
-
+ ☐ Show a grid of lines in the playground
+ ☐ Able to copy current state, paste (or call a function with the json string) it another window and get the same state
+ ☐ 
