@@ -12,6 +12,16 @@ var DropDownMenu = mui.DropDownMenu;
 var materialInput = mui.Input;
 
 var UI = {
+    'materialUI/icon': {
+        comp: mui.Icon,
+        props: {
+            icon: 'maps-local-taxi',
+            styles: {}
+        },
+        supportedStyles: [],
+        dragImage: require('./../images/ghost-images/material-ui/icon.png'),
+        icon: 'editor-insert-emoticon'
+    },
     'materialUI/RaisedButton': {
         comp: RaisedButton,
         props: {
@@ -20,7 +30,8 @@ var UI = {
             style: {},
         },
         supportedStyles: [],
-        dragImage: require('./../images/ghost-images/material-ui/button.png')
+        dragImage: require('./../images/ghost-images/material-ui/button.png'),
+        icon: 'image-adjust'
     },
     'materialUI/input': {
         comp: materialInput,
@@ -32,7 +43,8 @@ var UI = {
             description:'Your first name as it appears on your credit card.'
         },
         supportedStyles: [],
-            dragImage: require('./../images/ghost-images/material-ui/input.png')
+        dragImage: require('./../images/ghost-images/material-ui/input.png'),
+        icon: 'action-input'
     },
     'materialUI/FloatingActionButton': {
         comp: FloatingActionButton,
@@ -41,7 +53,8 @@ var UI = {
             style: {},
         },
         supportedStyles: [],
-        dragImage: require('./../images/ghost-images/material-ui/button.png')
+        dragImage: require('./../images/ghost-images/material-ui/button.png'),
+        icon: 'action-stars'
     },
     'materialUI/checkbox': {
         comp: Checkbox,
@@ -51,7 +64,8 @@ var UI = {
             style: {},
         },
         supportedStyles: [],
-        dragImage: require('./../images/ghost-images/material-ui/checkbox.png')
+        dragImage: require('./../images/ghost-images/material-ui/checkbox.png'),
+        icon: 'toggle-check-box'
     },
     'materialUI/radiobutton': {
         comp: RadioButton,
@@ -62,7 +76,8 @@ var UI = {
             style: {},
         },
         supportedStyles: [],
-        dragImage: require('./../images/ghost-images/material-ui/radiobutton.png')
+        dragImage: require('./../images/ghost-images/material-ui/radiobutton.png'),
+        icon: 'toggle-radio-button-on'
     },
     'materialUI/toggle': {
         comp: Toggle,
@@ -71,9 +86,10 @@ var UI = {
             style: {},
         },
         supportedStyles: [],
-        dragImage: require('./../images/ghost-images/material-ui/toggle.png')
+        dragImage: require('./../images/ghost-images/material-ui/toggle.png'),
+        icon: 'image-switch-camera'
     },
-    'materialUI/mui-menu': {
+    'materialUI/menu': {
         comp: Menu,
         props: {
             menuItems: [
@@ -84,7 +100,8 @@ var UI = {
             style: {}
         },
         supportedStyles: [],
-        dragImage: require('./../images/ghost-images/material-ui/menu.png')  
+        dragImage: require('./../images/ghost-images/material-ui/menu.png'),
+        icon: 'navigation-menu'
     },
     'materialUI/dropdown': {
         comp: DropDownMenu,
@@ -99,7 +116,8 @@ var UI = {
             style: {}
         },
         supportedStyles: {},
-        dragImage: require('./../images//ghost-images/material-ui/dropdown.png')
+        dragImage: require('./../images//ghost-images/material-ui/dropdown.png'),
+        icon: 'navigation-more-vert'
     },
     'materialUI/paper': {
         comp: Paper,
@@ -107,7 +125,8 @@ var UI = {
             zDepth: 3
         },
         supportedStyles: [],
-        dragImage: require('./../images/ghost-images/material-ui/paper.png')  
+        dragImage: require('./../images/ghost-images/material-ui/paper.png'),
+        icon: 'content-content-copy'
     },
     'basic/button': {
         comp: require('./../components/basic/button.jsx'),

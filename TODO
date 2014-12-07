@@ -11,4 +11,6 @@
  ☐ Check if it's possible to integrate material-ui react components
  ☐ Allow editing of other properties for a component (which can be passed as prop, like zDepth in case of a material-ui paper)
  ☐ clientX and clientY for the dropped items does not give the correct coordinates. Need to find the correct solution.
+ ☐ Replace our own page controls (like buttons) to material-ui controls. profit!
+ ☐ The property input boxes can be converted to typeahead boxes for string values
 

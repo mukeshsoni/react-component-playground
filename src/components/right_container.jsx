@@ -14,6 +14,7 @@ var Tab = ReactTabs.Tab;
 var TabPanel = ReactTabs.TabPanel;
 var TabList = ReactTabs.TabList;
 var uidata = require('./../js/uidata.js');
+var mui = require('material-ui');
 
 var Menu = require('./menu.jsx');
 
@@ -32,6 +33,7 @@ var RightContainer = React.createClass({
     // TODO - handle the case where the changed props was not in the initial list of props but in propTypes of the component
     handlePropChange: function(e) {
         if(typeof this.props.onPropsChange === 'function') {
+            // debugger;
             var propsObj = this.props.selectedComponent.props;
             if(this.props.selectedComponent.name && uidata[this.props.selectedComponent.name].comp.propTypes) {
                 propsObj = uidata[this.props.selectedComponent.name].comp.propTypes;
@@ -40,8 +42,8 @@ var RightContainer = React.createClass({
             var newProps = _.reduce(propsObj, function(acc, propValue, propName) {
                 if(propValue == React.PropTypes.func) {
                     acc[propName] = new Function(this.refs['prop'+propName].getDOMNode().value);
-                    // acc[propName] = eval(this.refs['prop'+propName].getDOMNode().value);
                 } else {
+                    // acc[propName] = JSON.parse('"' + this.refs['prop'+propName].getDOMNode().value.replace(/"/g, '\\"') + '"');
                     acc[propName] = JSON.parse(this.refs['prop'+propName].getDOMNode().value);
                 }
                 return acc;
@@ -60,25 +62,26 @@ var RightContainer = React.createClass({
             borderLeft: '2px dotted tomato'
         };
 
-        // let's fix the style input box
-        var styleInputStyle ={
-            width: 50
-        };
-        var styleDivIndex = 0;
-        var supportedStyles = _.map(this.props.selectedComponent.supportedStyles, function(supportedStyle) {
-            styleDivIndex++;
-            return (
-                <div style={{display: 'inline-block'}} key={'style_div_'+styleDivIndex}>
-                    <label>{supportedStyle+': '}</label>
-                    <input 
-                        value={this.props.selectedComponent.props.style[supportedStyle]}
-                        style={styleInputStyle} 
-                        ref={'style'+supportedStyle}
-                        onChange={this.handleStyleChange}
-                        ></input>
-                </div>
-            );
-        }, this);
+        var supportedStyles = '';
+        // // let's fix the style input box
+        // var styleInputStyle ={
+        //     width: 50
+        // };
+        // var styleDivIndex = 0;
+        // var supportedStyles = _.map(this.props.selectedComponent.supportedStyles, function(supportedStyle) {
+        //     styleDivIndex++;
+        //     return (
+        //         <div style={{display: 'inline-block'}} key={'style_div_'+styleDivIndex}>
+        //             <label>{supportedStyle+': '}</label>
+        //             <input 
+        //                 value={this.props.selectedComponent.props.style[supportedStyle]}
+        //                 style={styleInputStyle} 
+        //                 ref={'style'+supportedStyle}
+        //                 onChange={this.handleStyleChange}
+        //                 ></input>
+        //         </div>
+        //     );
+        // }, this);
 
 // TODO - instead use the components propTypes property to know all the supported properties
 // filter out the properties which talk about functions. or Not?
@@ -95,7 +98,7 @@ var RightContainer = React.createClass({
 
                     switch(value) {
                         case React.PropTypes.func:
-                            propType = 'function';
+                            propType = 'function, only input the body of the function';
                             // IMPORTANT - tricky business allowing people to input functions as strings.
                             var functionString = propValue.toString();
                             propValue = functionString.substring(functionString.indexOf("{") + 1, functionString.lastIndexOf("}"));
@@ -108,6 +111,9 @@ var RightContainer = React.createClass({
                             break;
                         case React.PropTypes.array:
                             propType = 'array';
+                            break;
+                        case React.PropTypes.array.isRequired:
+                            propType = 'array, required';
                             break;
                         case React.PropTypes.bool:
                             propType = 'boolean';

@@ -5,6 +5,7 @@ var Playground = require('./playground.jsx');
 var uidata = require('./../js/uidata.js');
 var Immutable = require('immutable');
 var History = require('immutable-history');
+var mui = require('material-ui');
 
 var componentListForListing = _.reduce(uidata, function(result, value, key) {
     var componentCategory = key.split('/')[0];
@@ -21,7 +22,7 @@ var componentListForListing = _.reduce(uidata, function(result, value, key) {
 var TippyTapApp = React.createClass({
     getInitialState: function() {
         return {
-            previewMode: true,
+            previewMode: false,
             currentHistoryIndex: 0,
             snapToGrid: false,
             selectedComponentStyle: {}
@@ -84,6 +85,7 @@ var TippyTapApp = React.createClass({
                     <button onClick={this.handleRedoClick} disabled={this.props.redoCount===0}>Redo</button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <button style={previewButtonStyle} onClick={this.togglePreviewMode}>Preview Mode</button>
+
                     <input type='checkbox'
                             style={{marginLeft: 20}}
                             checked={this.state.snapToGrid}

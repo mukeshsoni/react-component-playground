@@ -9,6 +9,13 @@ var React = require('react/addons');
 var History = require('immutable-history');
 var uidata = require('./js/uidata.js');
 
+// IMP: have put this here for material-ui. they say it will go once react 1.0 is release
+var injectTapEventPlugin = require("react-tap-event-plugin");
+//Needed for onTouchTap
+//Can go away when react 1.0 release
+//Check this repo:
+//https://github.com/zilverline/react-tap-event-plugin
+injectTapEventPlugin();
 
 // require('~material-ui/src/less/components');
 // require('~./../node_modules/material-ui/src/less/scaffolding.less');
@@ -56,11 +63,14 @@ function redo(currentCursor) {
 }
 
 var defaultPostion = { top: 0, left: 0 };
-var initialComponents = ['materialUI/toggle'];
-var data = _.map(initialComponents, function(component) {
+var initialComponents = ['materialUI/FloatingActionButton', 'materialUI/menu', 'materialUI/dropdown'];
+var data = _.map(initialComponents, function(component, index) {
     return _.merge({
         name: component,
-        position: defaultPostion
+        position: {
+            top: 100,
+            left: index*100 + 150*(index+1)
+        }
     }, _.pick(uidata[component], 'props', 'supportedStyles'));
 });
 
