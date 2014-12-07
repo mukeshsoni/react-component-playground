@@ -82,8 +82,7 @@ var UI = {
     'materialUI/toggle': {
         comp: Toggle,
         props: {
-            onToggle: function() {console.log('hi')},
-            style: {},
+            style: {}
         },
         supportedStyles: [],
         dragImage: require('./../images/ghost-images/material-ui/toggle.png'),
@@ -93,9 +92,9 @@ var UI = {
         comp: Menu,
         props: {
             menuItems: [
-                { payload: '1', text: 'ID', data: '1234567890', icon: 'home' },
-                { payload: '2', text: 'Type', data: 'Announcement', icon: 'home' },
-                { payload: '3', text: 'Caller ID', data: '(123) 456-7890', icon: 'home' }
+                { payload: '1', text: 'ID', data: '1234567890', icon: 'action-home' },
+                { payload: '2', text: 'Type', data: 'Announcement', icon: 'editor-merge-type' },
+                { payload: '3', text: 'Caller ID', data: '(123) 456-7890', icon: 'communication-phone' }
             ],
             style: {}
         },
@@ -122,6 +121,7 @@ var UI = {
     'materialUI/paper': {
         comp: Paper,
         props: {
+            className: 'paper-examples',
             zDepth: 3
         },
         supportedStyles: [],

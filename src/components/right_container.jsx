@@ -18,6 +18,8 @@ var mui = require('material-ui');
 
 var Menu = require('./menu.jsx');
 
+// TODO - put the JSON.stringify and JSON.parse calls in try catch blocks
+// TODO - put new Function call in try catch block
 var RightContainer = React.createClass({
     getDefaultProps: () => { componentList: {} },
     handleStyleChange: function(e) {
@@ -29,6 +31,9 @@ var RightContainer = React.createClass({
 
             this.props.onStyleChange(newStyle);
         }
+    },
+    getPropType: function(propName) {
+        return uidata[this.props.selectedComponent.name].comp.propTypes[propName];
     },
     // TODO - handle the case where the changed props was not in the initial list of props but in propTypes of the component
     handlePropChange: function(e) {
@@ -43,7 +48,6 @@ var RightContainer = React.createClass({
                 if(propValue == React.PropTypes.func) {
                     acc[propName] = new Function(this.refs['prop'+propName].getDOMNode().value);
                 } else {
-                    // acc[propName] = JSON.parse('"' + this.refs['prop'+propName].getDOMNode().value.replace(/"/g, '\\"') + '"');
                     acc[propName] = JSON.parse(this.refs['prop'+propName].getDOMNode().value);
                 }
                 return acc;
@@ -95,28 +99,32 @@ var RightContainer = React.createClass({
                     var propValue = this.props.selectedComponent.props[key] || '';
                     var propName = key;
                     var propType = 'indeterminate';
+                    var valueToShow = JSON.stringify(propValue);
 
                     switch(value) {
                         case React.PropTypes.func:
-                            propType = 'function, only input the body of the function';
+                            propType = 'function';
                             // IMPORTANT - tricky business allowing people to input functions as strings.
                             var functionString = propValue.toString();
                             propValue = functionString.substring(functionString.indexOf("{") + 1, functionString.lastIndexOf("}"));
+                            valueToShow = propValue;
                             break;
                         case React.PropTypes.string:
+                        case React.PropTypes.string.isRequired:
                             propType = 'string';
                             break;
-                        case React.PropTypes.string.isRequired:
-                            propType = 'string, required';
+                        case React.PropTypes.number:
+                        case React.PropTypes.number.isRequired:
+                            propType = 'number';
+                            valueToShow = JSON.stringify(propValue || 0);
                             break;
                         case React.PropTypes.array:
-                            propType = 'array';
-                            break;
                         case React.PropTypes.array.isRequired:
-                            propType = 'array, required';
+                            propType = 'array';
                             break;
                         case React.PropTypes.bool:
                             propType = 'boolean';
+                            valueToShow = JSON.stringify(propValue || false); // very very IMPORTANT. this thing solved the whole how to pass string as boolean to prop problem
                             break;
                         default:
                             propType = 'indeterminate';
@@ -127,7 +135,7 @@ var RightContainer = React.createClass({
                             <label>{propName+' ( ' + propType + ' ): '}</label>
                             <input 
                                 style={{width: 500}}
-                                value={propType!=='function' ? JSON.stringify(propValue) : propValue}
+                                value={valueToShow}
                                 ref={'prop'+propName}
                                 onChange={this.handlePropChange}
                                 ></input>
@@ -184,7 +192,7 @@ var RightContainer = React.createClass({
 
         return (
             <div style={style} className="pure-u-7-24 right-container">
-                <div className="right-container-top" style={{minHeight:200}}>
+                <div className="right-container-top" style={{minHeight:200, marginBottom: 10}}>
                     All component editable properties come here
                     <Tabs
                         onSelect={this.handleTopMenuSelected}
@@ -192,18 +200,12 @@ var RightContainer = React.createClass({
                     >
                         <TabList>
                             <Tab>Properties</Tab>
-                            <Tab>Styles</Tab>
                         </TabList>
                         <TabPanel>
-                            Properties supported by the selected component
                             {properties}
-                        </TabPanel>
-                        <TabPanel>
-                            {supportedStyles}
                         </TabPanel>
                     </Tabs>
                 </div>
-                <hr/>
                 <Tabs
                 onSelect={this.handleSelected}
                 selectedIndex={0}>

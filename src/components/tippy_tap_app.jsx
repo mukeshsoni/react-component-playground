@@ -34,9 +34,6 @@ var TippyTapApp = React.createClass({
     handleRedoClick: function() {
         this.props.onRedoClick();
     },
-    togglePreviewMode: function() {
-        this.setState({previewMode: !this.state.previewMode});
-    },
     toggleSnapToGrid: function(e) {
         this.setState({
             snapToGrid: e.target.checked
@@ -66,6 +63,9 @@ var TippyTapApp = React.createClass({
             });
         }  
     },
+    handlePreviewToggle: function(event, toggleState) {
+        this.setState({previewMode: toggleState});
+    },
     render: function() {
         var previewButtonStyle = {
             backgroundColor: this.state.previewMode ? 'green' : 'red'
@@ -81,11 +81,10 @@ var TippyTapApp = React.createClass({
         return (
             <div>
                 <header style={{marginBottom: 10, marginLeft: 10}}>
-                    <button onClick={this.handleUndoClick} disabled={this.props.undoCount===0}>Undo</button>
-                    <button onClick={this.handleRedoClick} disabled={this.props.redoCount===0}>Redo</button>
+                    <mui.IconButton icon='content-undo' disabled={this.props.undoCount===0} onTouchTap={this.handleUndoClick} />
+                    <mui.IconButton icon='content-redo' disabled={this.props.redoCount===0} onTouchTap={this.handleRedoClick} />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <button style={previewButtonStyle} onClick={this.togglePreviewMode}>Preview Mode</button>
-
+                    Preview Mode: <mui.Toggle onToggle={this.handlePreviewToggle} />
                     <input type='checkbox'
                             style={{marginLeft: 20}}
                             checked={this.state.snapToGrid}

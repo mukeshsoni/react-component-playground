@@ -63,7 +63,7 @@ function redo(currentCursor) {
 }
 
 var defaultPostion = { top: 0, left: 0 };
-var initialComponents = ['materialUI/FloatingActionButton', 'materialUI/menu', 'materialUI/dropdown'];
+var initialComponents = ['materialUI/FloatingActionButton', 'materialUI/menu', 'materialUI/dropdown', 'materialUI/RaisedButton'];
 var data = _.map(initialComponents, function(component, index) {
     return _.merge({
         name: component,
