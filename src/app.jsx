@@ -10,6 +10,7 @@ var Cursor = require('immutable/contrib/cursor');
 var React = require('react/addons');
 var History = require('immutable-history');
 var uidata = require('./js/uidata.js');
+var request = require('superagent');
 
 // IMP: have put this here for material-ui. they say it will go once react 1.0 is release
 var injectTapEventPlugin = require("react-tap-event-plugin");
@@ -29,7 +30,7 @@ require('./css/main.less');
 (window !== window.top ? window.top : window).getHistory = getHistory;
 (window !== window.top ? window.top : window).setHistory = setHistory;
 
-if (window.history.pushState) {
+if (window.history.pushState && window.location.pathname === '/') {
     var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + historyId;
     window.history.pushState({path:newurl},'',newurl);
 }
@@ -81,6 +82,18 @@ function setHistory(historyItems) {
     // });
 }
 
+function handleSaveClick() {
+    var data = getHistory();
+    console.log('history: ', data);
+    request
+        .post('/api/history')
+        .send({id: historyId, data: data})
+        .set('Accept', 'application/json')
+        .end(function(error, res){
+            console.log('got response from server: ', res);
+        });
+}
+
 // components
 var TippyTapApp = require('./components/tippy_tap_app.jsx');
 
@@ -99,7 +112,10 @@ function render(cursor) {
     React.render(<TippyTapApp
                     undoCount={undoCount}
                     redoCount={redoCount}
-                    onUndoClick={handleUndoClick} onRedoClick={handleRedoClick} cursor={cursor} />, document.getElementById('container')); // jshint ignore:line
+                    onUndoClick={handleUndoClick} 
+                    onRedoClick={handleRedoClick} 
+                    onSaveClick={handleSaveClick}
+                    cursor={cursor} />, document.getElementById('container')); // jshint ignore:line
 }
 
 var defaultPostion = { top: 0, left: 0 };

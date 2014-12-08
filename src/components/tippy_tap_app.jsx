@@ -4,8 +4,8 @@ var RightContainer = require('../components/right_container.jsx');
 var Playground = require('./playground.jsx');
 var uidata = require('./../js/uidata.js');
 var Immutable = require('immutable');
-var History = require('immutable-history');
 var mui = require('material-ui');
+
 
 var componentListForListing = _.reduce(uidata, function(result, value, key) {
     var componentCategory = key.split('/')[0];
@@ -66,6 +66,10 @@ var TippyTapApp = React.createClass({
     handlePreviewToggle: function(event, toggleState) {
         this.setState({previewMode: toggleState});
     },
+    handleSaveClick: function (argument) {
+        console.log('save clicked');
+        typeof this.props.onSaveClick === 'function' && this.props.onSaveClick();
+    },
     render: function() {
         var previewButtonStyle = {
             backgroundColor: this.state.previewMode ? 'green' : 'red'
@@ -92,6 +96,10 @@ var TippyTapApp = React.createClass({
                         >
                         &nbsp;&nbsp;Snap to grid
                     </input>
+
+                    <span style={{float: 'right'}}>
+                        <mui.RaisedButton onClick={this.handleSaveClick} label='Save' primary={true} />
+                    </span>
                 </header>
                 <div className='pure-g'>
                     <Playground
