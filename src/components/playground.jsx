@@ -102,7 +102,9 @@ var Playground = React.createClass({
         });
     },
     handleComponentRemoveClick: function(index) {
-        this.props.cursor.get('data').update(function(oldValue) {
+        console.log('in handle remove click');
+        this.props.cursor.get(['data']).update(function(oldValue) {
+            console.log('hi: ', oldValue.toJS(), index, oldValue.splice(index, 1).toJS());
             return oldValue.splice(index, 1);
         });
     },

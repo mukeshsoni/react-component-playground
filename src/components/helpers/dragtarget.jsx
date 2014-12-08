@@ -44,7 +44,8 @@ var DragTarget = React.createClass({
             top: 0
         };
     },
-    handleCloseClick: function() {
+    handleCloseClick: function(e) {
+        e.stopPropagation(); // very IMPORTANT. Else the click gets propagated to the other div and it's click handler is called, which causes all sorts of issues.
         typeof this.props.onCloseClick === 'function' && this.props.onCloseClick(this.props.id);
     },
     handleMouseEnter: function() {
@@ -83,11 +84,13 @@ var DragTarget = React.createClass({
         }
 
         var closeButtonStyles = {
-            width: "20px",
-            height: "20px",
-            position: "absolute",
+            zIndex: 1000,
+            width: 20,
+            height: 20,
+            position: 'absolute',
             right: 0,
-            top: 0
+            top: 0,
+            cursor: 'pointer'
         };
 
         var innerDivStyle = {

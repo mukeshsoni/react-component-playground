@@ -27,9 +27,53 @@ require('./css/main.less');
 (window !== window.top ? window.top : window).Immutable = Immutable;
 (window !== window.top ? window.top : window).History = History;
 (window !== window.top ? window.top : window).getHistory = getHistory;
+(window !== window.top ? window.top : window).setHistory = setHistory;
 
 function getHistory() {
-    return history.history.toJS();
+    return _.map(history.history, function(historyItem) {
+        return historyItem.toJS();
+    });
+}
+
+function setHistory(historyItems) {
+    var historyItemsArray;
+
+    if(_.isString(historyItems)) {
+        try {
+            historyItemsArray = JSON.parse(historyItems);
+        } catch(E) {
+            return console.log('Error in parsing json: ', E.message);
+        }
+    } else if(_.isObject(historyItems)) {
+        historyItemsArray = historyItems;
+    }
+
+    if(!_.isArray(historyItemsArray)) {
+        historyItemsArray = [historyItemsArray];
+    }
+
+    var history = new History(historyItemsArray[0], render);
+
+    // for some fun ;)
+    var index = 1;
+    function playHistory(historyItem) {
+        if(index === historyItemsArray.length) return;
+
+        history.cursor.update(function(oldData) {
+            return Immutable.fromJS(historyItemsArray[index]);
+        });
+        index++;
+
+        _.delay(playHistory, 400);
+    }
+
+
+    _.defer(playHistory, 400);
+    // _.each(_.rest(historyItemsArray), function(historyItem) {
+    //     history.cursor.update(function(oldData) {
+    //         return Immutable.fromJS(historyItem);
+    //     });
+    // });
 }
 
 // components
@@ -44,8 +88,9 @@ function handleRedoClick() {
 }
 
 function render(cursor) {
-    var undoCount = history ? history.currentIndex : 0;
-    var redoCount = history ? history.history.length - history.currentIndex - 1 : 0;
+    console.log('render');
+    var undoCount = history ? history.getCurrentIndex() : 0;
+    var redoCount = history ? history.history.length - history.getCurrentIndex() - 1 : 0;
 
     React.render(<TippyTapApp
                     undoCount={undoCount}
