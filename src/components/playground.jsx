@@ -10,6 +10,8 @@ var emptyFunction = require('react/lib/emptyFunction');
 var ItemTypes = require('./../js/itemtypes.js');
 var { DragDropMixin } = require('react-dnd');
 
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 var uidata = require('./../js/uidata.js');
 var DragTarget = require('./helpers/dragtarget.jsx');
 
@@ -164,7 +166,9 @@ var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]
                 className="pure-u-15-24 playground"
                 style={playgroundStyle}
             >
-                {dragTargets}
+                <ReactCSSTransitionGroup transitionName="dragtarget">
+                    {dragTargets}
+                </ReactCSSTransitionGroup>
             </div>
         );
     }

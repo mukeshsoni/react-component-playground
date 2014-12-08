@@ -28,7 +28,9 @@
     "webpack-dev-server": "^1.6.6"
   },
   "dependencies": {
+    "body-parser": "^1.10.0",
     "css-loader": "^0.9.0",
+    "express": "^4.10.4",
     "file-loader": "^0.8.1",
     "immutable": "^3.3.0",
     "immutable-history": "git+https://git@github.com/mukeshsoni/immutable-history.git",

@@ -58,7 +58,7 @@ function setHistory(historyItems) {
     var index = 1;
     function playHistory(historyItem) {
         if(index === historyItemsArray.length) return;
-
+        
         history.cursor.update(function(oldData) {
             return Immutable.fromJS(historyItemsArray[index]);
         });
@@ -88,7 +88,6 @@ function handleRedoClick() {
 }
 
 function render(cursor) {
-    console.log('render');
     var undoCount = history ? history.getCurrentIndex() : 0;
     var redoCount = history ? history.history.length - history.getCurrentIndex() - 1 : 0;
 

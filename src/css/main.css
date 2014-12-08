@@ -23,20 +23,20 @@ html, body {
 
 /* transitions */
 
-.fade-enter {
+.dragtarget-enter {
   opacity: 0.01;
   transition: opacity .5s ease-in;
 }
 
-.fade-enter.fade-enter-active {
+.dragtarget-enter.dragtarget-enter-active {
   opacity: 1;
 }
 
-.fade-leave {
+.dragtarget-leave {
   opacity: 1;
   transition: opacity .5s ease-in;
 }
 
-.fade-leave.fade-leave-active {
+.dragtarget-leave.dragtarget-leave-active {
   opacity: 0.01;
 }
