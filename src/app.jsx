@@ -58,10 +58,12 @@ function setHistory(historyItems) {
         historyItemsArray = [historyItemsArray];
     }
 
-    var history = new History(historyItemsArray[0], render);
+    // TODO - can't do it this way. 
+    // var history = new History(historyItemsArray[0], render);
 
+    // history.cursor.
     // for some fun ;)
-    var index = 1;
+    var index = 0;
     function playHistory(historyItem) {
         if(index === historyItemsArray.length) return;
 
