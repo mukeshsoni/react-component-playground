@@ -29,6 +29,11 @@ require('./css/main.less');
 (window !== window.top ? window.top : window).getHistory = getHistory;
 (window !== window.top ? window.top : window).setHistory = setHistory;
 
+if (window.history.pushState) {
+    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + historyId;
+    window.history.pushState({path:newurl},'',newurl);
+}
+
 function getHistory() {
     return _.map(history.history, function(historyItem) {
         return historyItem.toJS();
@@ -58,7 +63,7 @@ function setHistory(historyItems) {
     var index = 1;
     function playHistory(historyItem) {
         if(index === historyItemsArray.length) return;
-        
+
         history.cursor.update(function(oldData) {
             return Immutable.fromJS(historyItemsArray[index]);
         });
