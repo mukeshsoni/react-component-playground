@@ -1,10 +1,19 @@
+var webpack = require('webpack');
+
 module.exports = {
-  entry: './src/app.jsx',
+  entry: [
+    'webpack-dev-server/client?http://localhost:3000',
+    'webpack/hot/dev-server',
+    './src/app.jsx'
+  ],
   output: {
     path: __dirname + '/dist',
     filename: 'bundle.js',
     publicPath: '/dist/'
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
   module: {
     loaders: [
         { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: "url?limit=10000&minetype=application/font-woff" },
@@ -21,7 +30,7 @@ module.exports = {
             "less-loader"
         ]},
         // { test: /\.less$/, loader: "style!raw!less"},
-        { test: /\.jsx?$/, loader: 'jsx-loader?harmony' }
+        { test: /\.jsx?$/, loaders: ['react-hot', 'jsx-loader?harmony'] }
     ]
   }
 };
