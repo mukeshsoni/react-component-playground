@@ -22,13 +22,14 @@ app.set('view engine', 'jade');
 app.get('/', function(req, res) {
     var id = shortId.generate();
     redisClient.set(id, '');
-    res.render('index', { historyId: id, historyJSON: '' });
+    res.render('index', { historyId: id, historyJSON: '[]' });
 });
 
 app.get('/:id', function(req, res){
     var id = req.params.id;
     redisClient.get(id, function(error, historyString) {
-        res.render('index', { historyId: id, historyJSON: historyString });
+        console.log('history: ', historyString);
+        res.render('index', { historyId: id, historyJSON: historyString || '[]' });
     });
 });
 app.use(express.static(__dirname));

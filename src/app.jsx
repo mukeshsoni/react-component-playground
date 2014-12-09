@@ -58,7 +58,7 @@ function setHistory(historyItems) {
         historyItemsArray = [historyItemsArray];
     }
 
-    // TODO - can't do it this way. 
+    // TODO - can't do it this way.
     // var history = new History(historyItemsArray[0], render);
 
     // history.cursor.
@@ -114,8 +114,8 @@ function render(cursor) {
     React.render(<TippyTapApp
                     undoCount={undoCount}
                     redoCount={redoCount}
-                    onUndoClick={handleUndoClick} 
-                    onRedoClick={handleRedoClick} 
+                    onUndoClick={handleUndoClick}
+                    onRedoClick={handleRedoClick}
                     onSaveClick={handleSaveClick}
                     cursor={cursor} />, document.getElementById('container')); // jshint ignore:line
 }
@@ -132,11 +132,36 @@ var data = _.map(initialComponents, function(component, index) {
     }, _.pick(uidata[component], 'props', 'supportedStyles'));
 });
 
-var history = new History({
-        selectedComponentIndex: -100,
-        data: data
-    }, render);
+var history;
+function playHistory(index) {
+    if(index === historyJSON.length) return;
 
+    history.cursor.update(function(oldData) {
+        return Immutable.fromJS(historyJSON[index]);
+    });
+    // index++;
+
+    _.delay(playHistory.bind(null, index+1), 400);
+}
+
+function init() {
+    console.log('history json : ', historyJSON);
+    if(!historyJSON || historyJSON.length === 0) {
+        history = new History({
+                selectedComponentIndex: -100,
+                data: data
+            }, render);
+    } else {
+        history = new History(historyJSON[0], render);
+
+        var index = 1;
+
+
+        _.defer(playHistory.bind(null, index), 400);
+    }
+}
+
+init();
 
 window.addEventListener('keydown', function(e) {
     // 90 === 'z' and e.metaKey stands for 'Command' or 'Ctrl' key.
