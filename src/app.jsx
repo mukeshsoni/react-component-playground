@@ -14,10 +14,13 @@ var request = require('superagent');
 
 var PubSub = require('pubsub-js');
 
-var historyStringList = [];
+var historyStringList = ['Start'];
 PubSub.subscribe('history', function(eventName, eventContent) {
-    historyStringList.push(eventContent);
-    console.log('got history event: ', eventContent);
+    _.delay(function(eventContent) {
+        historyStringList = historyStringList.slice(0, history.getCurrentIndex());
+        historyStringList.push(eventContent);
+        render(history.cursor);
+    }, 500, eventContent);
 });
 
 // IMP: have put this here for material-ui. they say it will go once react 1.0 is release
@@ -66,10 +69,7 @@ function setHistory(historyItems) {
         historyItemsArray = [historyItemsArray];
     }
 
-    // TODO - can't do it this way.
-    // var history = new History(historyItemsArray[0], render);
 
-    // history.cursor.
     // for some fun ;)
     var index = 0;
     function playHistory(historyItem) {
@@ -114,6 +114,11 @@ function handleRedoClick() {
     history.redo();
 }
 
+function handleHistoryItemClick(index) {
+    history.goto(index);
+    // PubSub.publish('history')
+}
+
 function render(cursor) {
     var undoCount = history ? history.getCurrentIndex() : 0;
     var redoCount = history ? history.history.length - history.getCurrentIndex() - 1 : 0;
@@ -124,6 +129,8 @@ function render(cursor) {
                     onUndoClick={handleUndoClick}
                     onRedoClick={handleRedoClick}
                     onSaveClick={handleSaveClick}
+                    historyStringList={historyStringList}
+                    onHistoryItemClick={handleHistoryItemClick}
                     cursor={cursor} />, document.getElementById('container')); // jshint ignore:line
 }
 
@@ -177,4 +184,4 @@ window.addEventListener('keydown', function(e) {
     }
 });
 
-module.exports = TippyTapApp;
+module.exports = TippyTapApp; 

@@ -69,6 +69,9 @@ var TippyTapApp = React.createClass({
     handleSaveClick: function (argument) {
         typeof this.props.onSaveClick === 'function' && this.props.onSaveClick();
     },
+    handleHistoryItemClick: function (historyItemIndex) {
+        typeof this.props.onHistoryItemClick === 'function' && this.props.onHistoryItemClick(historyItemIndex);
+    },
     render: function() {
         var previewButtonStyle = {
             backgroundColor: this.state.previewMode ? 'green' : 'red'
@@ -80,6 +83,29 @@ var TippyTapApp = React.createClass({
         } else {
             selectedComponent = {};
         }
+
+var historyList = _.map(this.props.historyStringList, function(historyString, index) {
+    return (
+        <li key={'history_list_' + index} style={{
+                            cursor: 'pointer',
+                            font: '200 20px/1.5 Helvetica, Verdana, sans-serif',
+                            borderBottom: '1px solid #ccc'
+                        }} onClick={this.handleHistoryItemClick.bind(this, index)}>
+
+            <a href='#' style={{
+                    textDecoration: 'none',
+                    color: '#000',
+                    display: 'block',
+                    width: 200,
+                    '-webkit-transition': 'font-size 0.3s ease, background-color 0.3s ease',
+                    '-moz-transition': 'font-size 0.3s ease, background-color 0.3s ease',
+                    '-o-transition': 'font-size 0.3s ease, background-color 0.3s ease',
+                    '-ms-transition': 'font-size 0.3s ease, background-color 0.3s ease',
+                    transition: 'font-size 0.3s ease, background-color 0.3s ease',
+                }}>
+                {historyString}</a></li>
+    );
+}, this);
 
         return (
             <div>
@@ -112,6 +138,16 @@ var TippyTapApp = React.createClass({
                         onPropsChange={this.handlePropsChange}
                         selectedComponent={selectedComponent}
                         componentList={componentListForListing} />
+                </div>
+                <div className='pure-a-4-24'>
+                    <h2>History</h2>
+                    <ul style={{
+                                listStyle:'none',
+                                margin: 0,
+                                padding: 0
+                            }}>
+                        {historyList}
+                    </ul>
                 </div>
             </div>
         );
