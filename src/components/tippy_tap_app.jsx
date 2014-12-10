@@ -23,7 +23,6 @@ var TippyTapApp = React.createClass({
     getInitialState: function() {
         return {
             previewMode: false,
-            currentHistoryIndex: 0,
             snapToGrid: false,
             selectedComponentStyle: {}
         };
@@ -85,12 +84,15 @@ var TippyTapApp = React.createClass({
         }
 
 var historyList = _.map(this.props.historyStringList, function(historyString, index) {
+    var listStyle = {
+                cursor: 'pointer',
+                font: '200 20px/1.5 Helvetica, Verdana, sans-serif',
+                borderBottom: '1px solid #ccc',
+                background: (this.props.currentHistoryIndex === index) ? 'beige' : 'white',
+            };
+
     return (
-        <li key={'history_list_' + index} style={{
-                            cursor: 'pointer',
-                            font: '200 20px/1.5 Helvetica, Verdana, sans-serif',
-                            borderBottom: '1px solid #ccc'
-                        }} onClick={this.handleHistoryItemClick.bind(this, index)}>
+        <li key={'history_list_' + index} style={listStyle} onClick={this.handleHistoryItemClick.bind(this, index)}>
 
             <a href='#' style={{
                     textDecoration: 'none',

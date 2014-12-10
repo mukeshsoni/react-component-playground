@@ -120,6 +120,8 @@ function handleHistoryItemClick(index) {
 }
 
 function render(cursor) {
+    // if(!history) return;
+
     var undoCount = history ? history.getCurrentIndex() : 0;
     var redoCount = history ? history.history.length - history.getCurrentIndex() - 1 : 0;
 
@@ -131,6 +133,7 @@ function render(cursor) {
                     onSaveClick={handleSaveClick}
                     historyStringList={historyStringList}
                     onHistoryItemClick={handleHistoryItemClick}
+                    currentHistoryIndex={history ? history.getCurrentIndex() : 0}
                     cursor={cursor} />, document.getElementById('container')); // jshint ignore:line
 }
 
