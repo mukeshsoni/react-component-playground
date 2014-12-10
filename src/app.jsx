@@ -94,9 +94,15 @@ function setHistory(historyItems) {
 
 function handleSaveClick() {
     var data = getHistory();
+    var toSendData = {
+        currentHistoryIndex: history.getCurrentIndex(),
+        historyStringList: historyStringList,
+        history: data
+    }
+
     request
         .post('/api/history')
-        .send({id: historyId, data: data})
+        .send({id: historyId, data: toSendData})
         .set('Accept', 'application/json')
         .end(function(error, res){
             console.log('got response from server: ', res);
@@ -151,10 +157,12 @@ var data = _.map(initialComponents, function(component, index) {
 
 var history;
 function playHistory(index) {
-    if(index === historyJSON.length) return;
+    if(index === historyJSON.history.length) {
+        return history.goto(historyJSON.currentHistoryIndex);
+    }
 
     history.cursor.update(function(oldData) {
-        return Immutable.fromJS(historyJSON[index]);
+        return Immutable.fromJS(historyJSON.history[index]);
     });
     // index++;
 
@@ -162,16 +170,15 @@ function playHistory(index) {
 }
 
 function init() {
-    if(!historyJSON || historyJSON.length === 0) {
+    if(!historyJSON || !historyJSON.history || historyJSON.history.length === 0) {
         history = new History({
                 selectedComponentIndex: -100,
                 data: data
             }, render);
     } else {
-        history = new History(historyJSON[0], render);
-
+        history = new History(historyJSON.history[0], render);
+        historyStringList = historyJSON.historyStringList;
         var index = 1;
-
 
         _.defer(playHistory.bind(null, index), 400);
     }
