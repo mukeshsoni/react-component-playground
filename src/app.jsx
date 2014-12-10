@@ -12,6 +12,14 @@ var History = require('immutable-history');
 var uidata = require('./js/uidata.js');
 var request = require('superagent');
 
+var PubSub = require('pubsub-js');
+
+var historyStringList = [];
+PubSub.subscribe('history', function(eventName, eventContent) {
+    historyStringList.push(eventContent);
+    console.log('got history event: ', eventContent);
+});
+
 // IMP: have put this here for material-ui. they say it will go once react 1.0 is release
 var injectTapEventPlugin = require("react-tap-event-plugin");
 //Needed for onTouchTap
@@ -86,7 +94,6 @@ function setHistory(historyItems) {
 
 function handleSaveClick() {
     var data = getHistory();
-    console.log('history: ', data);
     request
         .post('/api/history')
         .send({id: historyId, data: data})
@@ -145,7 +152,6 @@ function playHistory(index) {
 }
 
 function init() {
-    console.log('history json : ', historyJSON);
     if(!historyJSON || historyJSON.length === 0) {
         history = new History({
                 selectedComponentIndex: -100,

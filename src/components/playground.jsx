@@ -9,6 +9,7 @@ var Immutable = require('immutable');
 var emptyFunction = require('react/lib/emptyFunction');
 var ItemTypes = require('./../js/itemtypes.js');
 var { DragDropMixin } = require('react-dnd');
+var PubSub = require('pubsub-js');
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -65,6 +66,8 @@ var Playground = React.createClass({
                             supportedStyles: uidata[item.name].supportedStyles
                         }));
                     });
+
+                    PubSub.publish('history', 'Item Added: ' + item.name);
                 },
             }
         });
@@ -102,18 +105,22 @@ var Playground = React.createClass({
         position.update(function(oldValue) {
             return oldValue.set('left', left).set('top', top).set('zIndex', lastZIndex++);
         });
+
+        PubSub.publish('history', 'Item Moved: ' + data.getIn([id, 'name']));
     },
     handleComponentRemoveClick: function(index) {
-        console.log('in handle remove click');
         this.props.cursor.get(['data']).update(function(oldValue) {
-            console.log('hi: ', oldValue.toJS(), index, oldValue.splice(index, 1).toJS());
             return oldValue.splice(index, 1);
         });
+
+        PubSub.publish('history', 'Item Removed: ' + this.props.cursor.getIn(['data', index, 'name']));
     },
     selectItem: function(index) {
         this.props.cursor.update(function(oldValue) {
             return oldValue.set('selectedComponentIndex', index);
         });
+
+        PubSub.publish('history', 'Item Selected: ' + this.props.cursor.getIn(['data', index, 'name']));  
     },
     render() {
         var playgroundStyle = {

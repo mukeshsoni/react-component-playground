@@ -67,7 +67,6 @@ var TippyTapApp = React.createClass({
         this.setState({previewMode: toggleState});
     },
     handleSaveClick: function (argument) {
-        console.log('save clicked');
         typeof this.props.onSaveClick === 'function' && this.props.onSaveClick();
     },
     render: function() {
