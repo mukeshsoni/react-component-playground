@@ -201,10 +201,22 @@ var RightContainer = React.createClass({
                     >
                         <TabList>
                             <Tab>Properties</Tab>
+                            <Tab>Styles</Tab>
                         </TabList>
                         <TabPanel>
                             <form className="pure-form pure-g">
                                 {properties}
+                            </form>
+                        </TabPanel>
+                        <TabPanel>
+                            <form className='pure-form pure-g'>
+                                <div className='pure-u-1'>
+                                    <label>width: </label>
+                                    <input 
+                                        type='number'
+                                        className='pure-input-u-1-2'
+                                        />
+                                </div>
                             </form>
                         </TabPanel>
                     </Tabs>
