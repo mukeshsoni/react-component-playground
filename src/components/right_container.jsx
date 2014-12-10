@@ -131,13 +131,18 @@ var RightContainer = React.createClass({
 
                     return (
                         <div key={'prop_div_'+propDivIndex}>
-                            <label>{propName+' ( ' + propType + ' ): '}</label>
-                            <input 
-                                style={{width: 500}}
-                                value={valueToShow}
-                                ref={'prop'+propName}
-                                onChange={this.handlePropChange}
-                                ></input>
+                            <form className="pure-form">
+                                <fieldset>
+                                    <label>{propName+' ( ' + propType + ' ): '}</label>
+                                    <input 
+                                        type='text'
+                                        style={{width: 500}}
+                                        value={valueToShow}
+                                        ref={'prop'+propName}
+                                        onChange={this.handlePropChange}
+                                        ></input>
+                                </fieldset>
+                            </form>
                         </div>
                     );
 
