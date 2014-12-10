@@ -5,9 +5,7 @@ var Playground = require('./playground.jsx');
 var uidata = require('./../js/uidata.js');
 var Immutable = require('immutable');
 var mui = require('material-ui');
-var Menu = require('./menu.jsx');
-var Container = require('./../../node_modules/react-dnd/examples/_sortable-simple/Container.js');
-// var Card = require('./Card.jsx');
+var PubSub = require('pubsub-js');
 
 var componentListForListing = _.reduce(uidata, function(result, value, key) {
     var componentCategory = key.split('/')[0];
@@ -56,13 +54,14 @@ var TippyTapApp = React.createClass({
     handlePropsChange: function(newProps) {
         var selectedComponentIndex = this.props.cursor.get(['selectedComponentIndex']);
         var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]);
-        
 
         if(selectedComponent) {
             selectedComponent.update(function(oldValue) {
                 return oldValue.set('props', Immutable.fromJS(newProps));
             });
         }  
+
+        PubSub.publish('history', 'Property change for ' + selectedComponent.get('name'));
     },
     handlePreviewToggle: function(event, toggleState) {
         this.setState({previewMode: toggleState});
@@ -70,7 +69,10 @@ var TippyTapApp = React.createClass({
     handleSaveClick: function() {
         typeof this.props.onSaveClick === 'function' && this.props.onSaveClick();
     },
-    handleHistoryItemClick: function (historyItemIndex) {
+    // handleHistoryItemClick: function (historyItemIndex) {
+    //     typeof this.props.onHistoryItemClick === 'function' && this.props.onHistoryItemClick(historyItemIndex);
+    // },
+    handleHistoryItemClick: function (event, historyItemIndex) {
         typeof this.props.onHistoryItemClick === 'function' && this.props.onHistoryItemClick(historyItemIndex);
     },
     getLayers: function() {
@@ -84,16 +86,15 @@ var TippyTapApp = React.createClass({
         }).reverse();
     },
     handleLayerItemClick: function(event, index, item) {
-        console.log('layer item clicked: ', item);
         this.props.cursor.update(function(oldValue) {
             return oldValue.set('selectedComponentIndex', oldValue.get('data').count() - index - 1);
         });
+        PubSub.publish('history', item.text + ' selected');
     },
     _moveLayer: function(direction, selectedComponentIndex) {
         var afterIndex = selectedComponentIndex + direction;
         this.props.cursor.update(function(oldValue) {
             var selectedComponent = oldValue.get('data').get(selectedComponentIndex);
-            console.log('selected component: ', selectedComponent.toJS());
             return oldValue
                     .set('selectedComponentIndex', afterIndex)
                     .updateIn(['data'], function(oldVal) {
@@ -101,6 +102,9 @@ var TippyTapApp = React.createClass({
                                     .splice(afterIndex, 0, selectedComponent);
                     });
         });
+
+        var publishMessage = this.props.cursor.getIn(['data', selectedComponentIndex, 'name']) + ' zIndex moved ' + (direction === 1 ? 'up' : 'down');
+        PubSub.publish('history', publishMessage);
     },
     moveLayerUp: function() {
         var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
@@ -145,7 +149,6 @@ var TippyTapApp = React.createClass({
                             textDecoration: 'none',
                             color: '#000',
                             display: 'block',
-                            width: 200,
                             WebkitTransition: 'font-size 0.3s ease, background-color 0.3s ease',
                             MozTransition: 'font-size 0.3s ease, background-color 0.3s ease',
                             OTransition: 'font-size 0.3s ease, background-color 0.3s ease',
@@ -155,6 +158,12 @@ var TippyTapApp = React.createClass({
                         {historyString}</a></li>
             );
         }, this);
+var historyListItems = _.map(this.props.historyStringList, function (historyString, index) {
+    return {
+        payload: index,
+        text: historyString
+    }
+});
 
         var layers = this.getLayers();
         return (
@@ -195,21 +204,17 @@ var TippyTapApp = React.createClass({
                             menuItems={layers} 
                             onItemClick={this.handleLayerItemClick}
                             />
+                        <h2>History</h2>
+                        <mui.Menu 
+                            selectedIndex={this.props.currentHistoryIndex}
+                            menuItems={historyListItems}
+                            onItemClick={this.handleHistoryItemClick}
+                            />
                     </div>
                     <div className='pure-a-1-24'>
                         <button onClick={this.moveLayerUp}>Up</button>
                         <button onClick={this.moveLayerDown}>Down</button>
                     </div>
-                </div>
-                <div className='pure-a-5-24'>
-                    <h2>History</h2>
-                    <ul style={{
-                                listStyle:'none',
-                                margin: 0,
-                                padding: 0
-                            }}>
-                        {historyList}
-                    </ul>
                 </div>
             </div>
         );

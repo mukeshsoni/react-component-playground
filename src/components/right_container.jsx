@@ -35,6 +35,7 @@ var RightContainer = React.createClass({
         return uidata[this.props.selectedComponent.name].comp.propTypes[propName];
     },
     // TODO - handle the case where the changed props was not in the initial list of props but in propTypes of the component
+    // TODO - sometimes the JSON parsing fails. Check why
     handlePropChange: function(e) {
         if(typeof this.props.onPropsChange === 'function') {
             // debugger;
@@ -75,9 +76,9 @@ var RightContainer = React.createClass({
         //     return (
         //         <div style={{display: 'inline-block'}} key={'style_div_'+styleDivIndex}>
         //             <label>{supportedStyle+': '}</label>
-        //             <input 
+        //             <input
         //                 value={this.props.selectedComponent.props.style[supportedStyle]}
-        //                 style={styleInputStyle} 
+        //                 style={styleInputStyle}
         //                 ref={'style'+supportedStyle}
         //                 onChange={this.handleStyleChange}
         //                 ></input>
@@ -129,19 +130,16 @@ var RightContainer = React.createClass({
                     }
 
                     return (
-                        <div key={'prop_div_'+propDivIndex}>
-                            <form className="pure-form">
-                                <fieldset>
-                                    <label>{propName+' ( ' + propType + ' ): '}</label>
-                                    <input 
-                                        type='text'
-                                        style={{width: 500}}
-                                        value={valueToShow}
-                                        ref={'prop'+propName}
-                                        onChange={this.handlePropChange}
-                                        ></input>
-                                </fieldset>
-                            </form>
+                        <div className='pure-u-1' key={'prop_div_'+propDivIndex}>
+                            <label>{propName+' ( ' + propType + ' ): '}</label>
+                            <input
+                                className='pure-input-1'
+                                type='text'
+                                value={valueToShow}
+                                ref={'prop'+propName}
+                                onChange={this.handlePropChange}
+                                disabled={propName === 'className'}
+                                ></input>
                         </div>
                     );
 
@@ -150,10 +148,11 @@ var RightContainer = React.createClass({
                 var properties = _.map(this.props.selectedComponent.props, function(propValue, propName) {
                     propDivIndex++;
                     return (
-                        <div key={'prop_div_'+propDivIndex}>
+                        <div className='pure-u-1' key={'prop_div_'+propDivIndex}>
                             <label>{propName+': '}</label>
-                            <input 
-                                style={{width: 500}}
+                            <input
+                                className='pure-input-1'
+                                type='text'
                                 value={JSON.stringify(propValue)}
                                 ref={'prop'+propName}
                                 onChange={this.handlePropChange}
@@ -196,7 +195,6 @@ var RightContainer = React.createClass({
         return (
             <div style={style} className="pure-u-4-24 right-container">
                 <div className="right-container-top" style={{minHeight:200, marginBottom: 10}}>
-                    All component editable properties come here
                     <Tabs
                         onSelect={this.handleTopMenuSelected}
                         selectedIndex={0}
@@ -205,7 +203,9 @@ var RightContainer = React.createClass({
                             <Tab>Properties</Tab>
                         </TabList>
                         <TabPanel>
-                            {properties}
+                            <form className="pure-form pure-g">
+                                {properties}
+                            </form>
                         </TabPanel>
                     </Tabs>
                 </div>

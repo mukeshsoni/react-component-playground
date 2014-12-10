@@ -145,8 +145,7 @@ var Playground = React.createClass({
             playgroundStyle.backgroundColor = 'darkkhaki';
         }
 
-var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
-var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]);
+        var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
 
         var components = this.props.cursor.get('data').toJS();
         var dragTargets = components.map(function(component, index) {

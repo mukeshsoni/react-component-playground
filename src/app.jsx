@@ -20,7 +20,7 @@ PubSub.subscribe('history', function(eventName, eventContent) {
         historyStringList = historyStringList.slice(0, history.getCurrentIndex());
         historyStringList.push(eventContent);
         render(history.cursor);
-    }, 500, eventContent);
+    }, 50, eventContent);
 });
 
 // IMP: have put this here for material-ui. they say it will go once react 1.0 is release
