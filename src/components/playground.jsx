@@ -10,6 +10,7 @@ var emptyFunction = require('react/lib/emptyFunction');
 var ItemTypes = require('./../js/itemtypes.js');
 var { DragDropMixin } = require('react-dnd');
 var PubSub = require('pubsub-js');
+var shortId = require('shortid');
 
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -57,10 +58,13 @@ var Playground = React.createClass({
 
                     data.update(function(oldValue) {
                         return oldValue.push(Immutable.fromJS({
+                            id: shortId.generate(),
                             name: item.name,
                             position: {
                                 left: e.clientX,
-                                top: e.clientY
+                                top: e.clientY,
+                                // zIndex: _.max(data.toJS(), function(component) { return component.position.zIndex }).position.zIndex + 1
+                                zIndex: data.count()
                             },
                             props: uidata[item.name].props,
                             supportedStyles: uidata[item.name].supportedStyles
@@ -103,7 +107,7 @@ var Playground = React.createClass({
         var data = this.props.cursor.get('data');
         var position = data.getIn([id, 'position']);
         position.update(function(oldValue) {
-            return oldValue.set('left', left).set('top', top).set('zIndex', lastZIndex++);
+            return oldValue.set('left', left).set('top', top);
         });
 
         PubSub.publish('history', 'Item Moved: ' + data.getIn([id, 'name']));
@@ -154,6 +158,7 @@ var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]
                     onComponentClick={this.selectItem}
                     previewMode={this.props.previewMode}
                     id={index}
+                    zIndex={index}
                     hideSourceOnDrag={this.state.hideSourceOnDrag}
                     onCloseClick={this.handleComponentRemoveClick}
                     key={'drop_target_'+index}

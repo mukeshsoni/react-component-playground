@@ -8,9 +8,9 @@ var MenuItem = require('./basic/menuitem.jsx');
 
 var Menu = React.createClass({
     propTypes: {
-        items: React.PropTypes.arrayOf(React.PropTypes.string)
+        items: React.PropTypes.arrayOf(React.PropTypes.string),
+        selectedItem: React.PropTypes.string
     },
-
     getDefaultProps() {
         return {
             items: ["Home", "Flickr", "Messenger", "Sports", "Finance"],

@@ -11,7 +11,7 @@ var React = require('react/addons');
 var History = require('immutable-history');
 var uidata = require('./js/uidata.js');
 var request = require('superagent');
-
+var shortId = require('shortid');
 var PubSub = require('pubsub-js');
 
 var historyStringList = ['Start'];
@@ -147,10 +147,12 @@ var defaultPostion = { top: 0, left: 0 };
 var initialComponents = ['materialUI/FloatingActionButton', 'materialUI/menu', 'materialUI/dropdown', 'materialUI/RaisedButton'];
 var data = _.map(initialComponents, function(component, index) {
     return _.merge({
+        id: shortId.generate(),
         name: component,
         position: {
             top: 100,
-            left: index*100 + 150*(index+1)
+            left: index*100 + 150*(index+1),
+            zIndex: index
         }
     }, _.pick(uidata[component], 'props', 'supportedStyles'));
 });
@@ -172,7 +174,7 @@ function playHistory(index) {
 function init() {
     if(!historyJSON || !historyJSON.history || historyJSON.history.length === 0) {
         history = new History({
-                selectedComponentIndex: -100,
+                selectedComponentIndex: data.length - 1,
                 data: data
             }, render);
     } else {

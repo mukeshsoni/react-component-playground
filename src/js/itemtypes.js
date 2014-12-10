@@ -2,5 +2,6 @@
 
 module.exports = {
   ITEM: 'item',
-  BOX: 'box'
+  BOX: 'box',
+  LAYER_ITEM: 'layerItem'
 };

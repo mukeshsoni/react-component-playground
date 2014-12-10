@@ -15,7 +15,6 @@ var TabPanel = ReactTabs.TabPanel;
 var TabList = ReactTabs.TabList;
 var uidata = require('./../js/uidata.js');
 var mui = require('material-ui');
-
 var Menu = require('./menu.jsx');
 
 // TODO - put the JSON.stringify and JSON.parse calls in try catch blocks
@@ -195,7 +194,7 @@ var RightContainer = React.createClass({
 
 
         return (
-            <div style={style} className="pure-u-7-24 right-container">
+            <div style={style} className="pure-u-4-24 right-container">
                 <div className="right-container-top" style={{minHeight:200, marginBottom: 10}}>
                     All component editable properties come here
                     <Tabs

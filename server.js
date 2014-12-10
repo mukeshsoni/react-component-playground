@@ -28,7 +28,6 @@ app.get('/', function(req, res) {
 app.get('/:id', function(req, res){
     var id = req.params.id;
     redisClient.get(id, function(error, historyString) {
-        console.log('history: ', historyString);
         res.render('index', { historyId: id, historyJSON: historyString || '[]' });
     });
 });
