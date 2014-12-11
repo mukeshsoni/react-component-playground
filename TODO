@@ -15,3 +15,4 @@
  ☐ clientX and clientY for the dropped items does not give the correct coordinates. Need to find the correct solution.
  ☐ The property input boxes can be converted to typeahead boxes for string values
  ☐ Show a grid of lines in the playground
+ ☐ Allow user to add new component by providing the npm package name, sample props json and usage
