@@ -65,17 +65,17 @@ var TippyTapApp = React.createClass({
 
         PubSub.publish('history', style.name + ' udpated for ' + this.props.cursor.getIn(['data', this.props.cursor.get(['selectedComponentIndex']), 'name']));
     },
-    handlePropsChange: function(newProps) {
+    handlePropsChange: function(propValue, propName) {
         var selectedComponentIndex = this.props.cursor.get(['selectedComponentIndex']);
         var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]);
+        var props = selectedComponent.get('props');
 
-        if(selectedComponent) {
-            selectedComponent.update(function(oldValue) {
-                return oldValue.set('props', Immutable.fromJS(newProps));
+        if(props) {
+            props.update(function(oldValue) {
+                return oldValue.set(propName, propValue);
             });
-        }  
-
-        PubSub.publish('history', 'Property change for ' + selectedComponent.get('name'));
+            PubSub.publish('history', 'Property change for ' + selectedComponent.get('name'));
+        }
     },
     handlePreviewToggle: function(event, toggleState) {
         this.setState({previewMode: toggleState});

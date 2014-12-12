@@ -88,28 +88,28 @@ var RightContainer = React.createClass({
     },
     // implement property change in way we are handling style change
     handlePropBlur: function(propName, e) {
-
+        if(typeof this.props.onPropsChange === 'function') {
+            this.props.onPropsChange(this.state.selectedComponent.props[propName], propName);
+        }
     },
     // TODO - handle the case where the changed props was not in the initial list of props but in propTypes of the component
     // TODO - sometimes the JSON parsing fails. Check why
     handlePropChange: function(propName, e) {
-        if(typeof this.props.onPropsChange === 'function') {
-            var propsObj = this.state.selectedComponent.props;
-            if(this.state.selectedComponent.name && uidata[this.state.selectedComponent.name].comp.propTypes) {
-                propsObj = uidata[this.state.selectedComponent.name].comp.propTypes;
-            }
-
-            var newProps = _.reduce(propsObj, function(acc, propValue, propName) {
-                if(propValue == React.PropTypes.func) {
-                    acc[propName] = new Function(this.refs['prop'+propName].getDOMNode().value);
-                } else {
-                    acc[propName] = JSON.parse(this.refs['prop'+propName].getDOMNode().value);
-                }
-                return acc;
-            }, {}, this);
-
-            this.props.onPropsChange(newProps);
+        var propsObj = this.state.selectedComponent.props;
+        if(this.state.selectedComponent.name && uidata[this.state.selectedComponent.name].comp.propTypes) {
+            propsObj = uidata[this.state.selectedComponent.name].comp.propTypes;
         }
+
+        var selectedComponent = _.clone(this.state.selectedComponent);
+        if(propsObj[propName] === React.PropTypes.func) {
+            selectedComponent.props[propName] = new Function(e.target.value);
+        } else {
+            selectedComponent.props[propName] = JSON.parse(e.target.value);
+        }
+
+        this.setState({
+            selectedComponent: selectedComponent
+        });
     },
     render: function() {
         var index = 0;
@@ -189,6 +189,7 @@ var RightContainer = React.createClass({
                                 value={valueToShow}
                                 ref={'prop'+propName}
                                 onChange={this.handlePropChange.bind(this, propName)}
+                                onBlur={this.handlePropBlur.bind(this, propName)}
                                 disabled={propName === 'className'}
                                 ></input>
                         </div>

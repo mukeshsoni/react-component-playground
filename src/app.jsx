@@ -130,7 +130,7 @@ function handleHistoryItemClick(index) {
 
 function render(cursor) {
     // save to the server
-    lazySave();
+    // lazySave();
 
     var undoCount = history ? history.getCurrentIndex() : 0;
     var redoCount = history ? history.history.length - history.getCurrentIndex() - 1 : 0;
