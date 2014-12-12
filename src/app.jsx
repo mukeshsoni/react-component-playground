@@ -153,6 +153,10 @@ var data = _.map(initialComponents, function(component, index) {
             top: 100,
             left: index*100 + 150*(index+1),
             zIndex: index
+        },
+        styles: {},
+        props: {
+            className: shortId.generate()
         }
     }, _.pick(uidata[component], 'props', 'supportedStyles'));
 });

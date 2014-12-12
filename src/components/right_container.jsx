@@ -17,6 +17,39 @@ var uidata = require('./../js/uidata.js');
 var mui = require('material-ui');
 var Menu = require('./menu.jsx');
 
+var supportedStyles = [
+        {
+            name: 'Width',
+            cssProperty: 'width',
+            inputType: 'text'
+        },
+        {
+            name: 'Height',
+            cssProperty: 'height',
+            inputType: 'text'
+        },
+        {
+            name: 'Background',
+            cssProperty: 'background',
+            inputType: 'text'
+        },
+        {
+            name: 'Font',
+            cssProperty: 'font',
+            inputType: 'text'
+        },
+        {
+            name: 'Color',
+            cssProperty: 'color',
+            inputType: 'text'
+        },
+        {
+            name: 'Border',
+            cssProperty: 'border',
+            inputType: 'text'
+        },
+    ];
+
 // TODO - put the JSON.stringify and JSON.parse calls in try catch blocks
 // TODO - put new Function call in try catch block
 var RightContainer = React.createClass({
@@ -56,6 +89,21 @@ var RightContainer = React.createClass({
             this.props.onPropsChange(newProps);
         }
     },
+    handleStyleInputBlur: function(style, event) {
+        console.log('blur envent for: ', style);
+
+        if(event.target.value) {
+            var elems = document.getElementsByClassName(this.props.selectedComponent.props.className),
+                size = elems.length;
+
+            for (var i = 0; i < size; i++) {
+                var box = elems[i];
+                box.style[style.cssProperty]=event.target.value+'px';
+            }
+        }
+
+        typeof this.props.onStyleInput === 'function' && this.props.onStyleInput(style, event.target.value);
+    },
     render: function() {
 
         var index = 0;
@@ -65,26 +113,20 @@ var RightContainer = React.createClass({
             minHeight: 700
         };
 
-        var supportedStyles = '';
-        // // let's fix the style input box
-        // var styleInputStyle ={
-        //     width: 50
-        // };
-        // var styleDivIndex = 0;
-        // var supportedStyles = _.map(this.props.selectedComponent.supportedStyles, function(supportedStyle) {
-        //     styleDivIndex++;
-        //     return (
-        //         <div style={{display: 'inline-block'}} key={'style_div_'+styleDivIndex}>
-        //             <label>{supportedStyle+': '}</label>
-        //             <input
-        //                 value={this.props.selectedComponent.props.style[supportedStyle]}
-        //                 style={styleInputStyle}
-        //                 ref={'style'+supportedStyle}
-        //                 onChange={this.handleStyleChange}
-        //                 ></input>
-        //         </div>
-        //     );
-        // }, this);
+        var styleInputs = _.map(supportedStyles, function(supportedStyle, index) {
+            return (
+                <div className='pure-u-1'>
+                    <label>{supportedStyle.name} : </label>
+                    <input 
+                        value={this.props.selectedComponent.props.style ? this.props.selectedComponent.props.style[supportedStyle.cssProperty] :''}
+                        onBlur={this.handleStyleInputBlur.bind(this, supportedStyle)}
+                        key={'style_input_'+index}
+                        type={supportedStyle.inputType}
+                        className='pure-input-u-1-2'
+                        />
+                </div>
+            )
+        }, this);
 
 // TODO - instead use the components propTypes property to know all the supported properties
 // filter out the properties which talk about functions. or Not?
@@ -210,13 +252,7 @@ var RightContainer = React.createClass({
                         </TabPanel>
                         <TabPanel>
                             <form className='pure-form pure-g'>
-                                <div className='pure-u-1'>
-                                    <label>width: </label>
-                                    <input 
-                                        type='number'
-                                        className='pure-input-u-1-2'
-                                        />
-                                </div>
+                                {styleInputs}
                             </form>
                         </TabPanel>
                     </Tabs>

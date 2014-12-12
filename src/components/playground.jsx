@@ -66,8 +66,8 @@ var Playground = React.createClass({
                                 // zIndex: _.max(data.toJS(), function(component) { return component.position.zIndex }).position.zIndex + 1
                                 zIndex: data.count()
                             },
-                            props: uidata[item.name].props,
-                            supportedStyles: uidata[item.name].supportedStyles
+                            props: _.extend({}, uidata[item.name].props, {className: shortId.generate()}),
+                            supportedStyles: uidata[item.name].supportedStyles,
                         }));
                     });
 

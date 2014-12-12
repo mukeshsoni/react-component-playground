@@ -16,7 +16,7 @@ var UI = {
         comp: mui.Icon,
         props: {
             icon: 'maps-local-taxi',
-            styles: {}
+            style: {}
         },
         supportedStyles: [],
         dragImage: require('./../images/ghost-images/material-ui/icon.png'),
