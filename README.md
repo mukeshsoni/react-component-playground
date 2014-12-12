@@ -7,6 +7,14 @@ The question to answer is - Can we use immutable data structures and react's rer
 
 How to try it out - 
 
+Install [Redis](http://redis.io/download) and run the redis server
+
+```
+$ redis-server
+```
+
+Install npm packages and start - 
+
 ```
 $ npm install
 $ npm start
