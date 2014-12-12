@@ -21,12 +21,12 @@ var supportedStyles = [
         {
             name: 'Width',
             cssProperty: 'width',
-            inputType: 'text'
+            inputType: 'number'
         },
         {
             name: 'Height',
             cssProperty: 'height',
-            inputType: 'text'
+            inputType: 'number'
         },
         {
             name: 'Background',
@@ -56,27 +56,47 @@ var RightContainer = React.createClass({
     getInitialState: function() {
         console.log('rgis');
         return {
-            a: 2
+            selectedComponent: this.props.selectedComponent
         };
+    },
+    componentWillReceiveProps: function(nextProps) {
+        if(nextProps.selectedComponent.name !== this.state.selectedComponent.name) {
+            this.setState({selectedComponent: nextProps.selectedComponent});
+        }
     },
     getDefaultProps: () => { componentList: {} },
     handleStyleChange: function(style, event) {
-        console.log('focus: ', event.target == document.activeElement);
+        // console.log('focus: ', event.target == document.activeElement);
+        var selectedComponent = _.clone(this.state.selectedComponent);
+
+        selectedComponent.props.style[style.cssProperty] = event.target.value;
+
+        this.setState({
+            selectedComponent: selectedComponent
+        });
+    },
+    handleStyleBlur: function(style, event) {
         if(typeof this.props.onStyleChange === 'function') {
-            this.props.onStyleChange(style, event.target.value);
+            // change only if it's changed from previous value. else it's just creating unnecessary history
+            if(this.props.selectedComponent.props.style[style.cssProperty] !== event.target.value) {
+                this.props.onStyleChange(style, event.target.value);
+            }
         }
     },
     getPropType: function(propName) {
-        return uidata[this.props.selectedComponent.name].comp.propTypes[propName];
+        return uidata[this.state.selectedComponent.name].comp.propTypes[propName];
+    },
+    // implement property change in way we are handling style change
+    handlePropBlur: function(propName, e) {
+
     },
     // TODO - handle the case where the changed props was not in the initial list of props but in propTypes of the component
     // TODO - sometimes the JSON parsing fails. Check why
-    handlePropChange: function(e) {
+    handlePropChange: function(propName, e) {
         if(typeof this.props.onPropsChange === 'function') {
-            // debugger;
-            var propsObj = this.props.selectedComponent.props;
-            if(this.props.selectedComponent.name && uidata[this.props.selectedComponent.name].comp.propTypes) {
-                propsObj = uidata[this.props.selectedComponent.name].comp.propTypes;
+            var propsObj = this.state.selectedComponent.props;
+            if(this.state.selectedComponent.name && uidata[this.state.selectedComponent.name].comp.propTypes) {
+                propsObj = uidata[this.state.selectedComponent.name].comp.propTypes;
             }
 
             var newProps = _.reduce(propsObj, function(acc, propValue, propName) {
@@ -92,7 +112,6 @@ var RightContainer = React.createClass({
         }
     },
     render: function() {
-
         var index = 0;
         var self = this;
         var style = {
@@ -100,32 +119,34 @@ var RightContainer = React.createClass({
             minHeight: 700
         };
 
-        var styleInputs = _.map(supportedStyles, function(supportedStyle, index) {
-            return (
-                <div className='pure-u-1'>
-                    <label>{supportedStyle.name} : </label>
-                    <input 
-                        ref={'style_input_' + index}
-                        value={this.props.selectedComponent.props.style ? this.props.selectedComponent.props.style[supportedStyle.cssProperty] :''}
-                        onChange={this.handleStyleChange.bind(this, supportedStyle)}
-                        key={'style_input_'+index}
-                        type={supportedStyle.inputType}
-                        className='pure-input-u-1-2'
-                        />
-                </div>
-            )
-        }, this);
-
-// TODO - instead use the components propTypes property to know all the supported properties
-// filter out the properties which talk about functions. or Not?
-        // the properties tab
         var propDivIndex = 0;
         var properties = '';
-        if(this.props.selectedComponent.name) {
-            if(uidata[this.props.selectedComponent.name].comp.propTypes) {
-                properties = _.map(uidata[this.props.selectedComponent.name].comp.propTypes, function(value, key) {
+        var styleInputs = '';
+
+        if(this.state.selectedComponent.name) {
+            // style tab
+            styleInputs = _.map(supportedStyles, function(supportedStyle, index) {
+                return (
+                    <div className='pure-u-1'>
+                        <label>{supportedStyle.name} : </label>
+                        <input 
+                            ref={'style_input_' + index}
+                            value={this.state.selectedComponent.props.style ? this.state.selectedComponent.props.style[supportedStyle.cssProperty] :''}
+                            onChange={this.handleStyleChange.bind(this, supportedStyle)}
+                            onBlur={this.handleStyleBlur.bind(this, supportedStyle)}
+                            key={'style_input_'+index}
+                            type={supportedStyle.inputType}
+                            className='pure-input-u-1-2'
+                            />
+                    </div>
+                )
+            }, this);
+
+            if(uidata[this.state.selectedComponent.name].comp.propTypes) {
+                // the properties tab
+                properties = _.map(uidata[this.state.selectedComponent.name].comp.propTypes, function(value, key) {
                     propDivIndex++;
-                    var propValue = this.props.selectedComponent.props[key] || '';
+                    var propValue = this.state.selectedComponent.props[key] || '';
                     var propName = key;
                     var propType = 'indeterminate';
                     var valueToShow = JSON.stringify(propValue);
@@ -167,7 +188,7 @@ var RightContainer = React.createClass({
                                 type='text'
                                 value={valueToShow}
                                 ref={'prop'+propName}
-                                onChange={this.handlePropChange}
+                                onChange={this.handlePropChange.bind(this, propName)}
                                 disabled={propName === 'className'}
                                 ></input>
                         </div>
@@ -175,7 +196,7 @@ var RightContainer = React.createClass({
 
                 }, this);
             } else { // for components who have not defined proptypes
-                var properties = _.map(this.props.selectedComponent.props, function(propValue, propName) {
+                var properties = _.map(this.state.selectedComponent.props, function(propValue, propName) {
                     propDivIndex++;
                     return (
                         <div className='pure-u-1' key={'prop_div_'+propDivIndex}>
