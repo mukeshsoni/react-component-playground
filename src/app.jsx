@@ -109,6 +109,8 @@ function handleSaveClick() {
         });
 }
 
+var lazySave = _.debounce(handleSaveClick, 1000);
+
 // components
 var TippyTapApp = require('./components/tippy_tap_app.jsx');
 
@@ -125,8 +127,10 @@ function handleHistoryItemClick(index) {
     // PubSub.publish('history')
 }
 
+
 function render(cursor) {
-    // if(!history) return;
+    // save to the server
+    lazySave();
 
     var undoCount = history ? history.getCurrentIndex() : 0;
     var redoCount = history ? history.history.length - history.getCurrentIndex() - 1 : 0;

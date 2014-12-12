@@ -53,6 +53,12 @@ var supportedStyles = [
 // TODO - put the JSON.stringify and JSON.parse calls in try catch blocks
 // TODO - put new Function call in try catch block
 var RightContainer = React.createClass({
+    getInitialState: function() {
+        console.log('rgis');
+        return {
+            a: 2
+        };
+    },
     getDefaultProps: () => { componentList: {} },
     handleStyleChange: function(style, event) {
         console.log('focus: ', event.target == document.activeElement);
