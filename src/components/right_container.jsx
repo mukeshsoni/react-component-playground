@@ -78,8 +78,8 @@ var RightContainer = React.createClass({
     handleStyleBlur: function(style, event) {
         if(typeof this.props.onStyleChange === 'function') {
             // change only if it's changed from previous value. else it's just creating unnecessary history
-            if(this.props.selectedComponent.props.style[style.cssProperty] !== event.target.value) {
-                this.props.onStyleChange(style, event.target.value);
+            if(this.props.selectedComponent.props.style[style.cssProperty] !== this.state.selectedComponent.props.style[style.cssProperty]) {
+                this.props.onStyleChange(style, this.state.selectedComponent.props.style[style.cssProperty]);
             }
         }
     },
@@ -89,7 +89,10 @@ var RightContainer = React.createClass({
     // implement property change in way we are handling style change
     handlePropBlur: function(propName, e) {
         if(typeof this.props.onPropsChange === 'function') {
-            this.props.onPropsChange(this.state.selectedComponent.props[propName], propName);
+            // change only if it's changed from previous value. else it's just creating unnecessary history
+            if(this.state.selectedComponent.props[propName] !== this.props.selectedComponent.props[propName]) {
+                this.props.onPropsChange(this.state.selectedComponent.props[propName], propName);
+            }
         }
     },
     // TODO - handle the case where the changed props was not in the initial list of props but in propTypes of the component
