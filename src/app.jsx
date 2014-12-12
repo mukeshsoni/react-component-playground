@@ -109,7 +109,7 @@ function handleSaveClick() {
         });
 }
 
-var lazySave = _.debounce(handleSaveClick, 1000);
+var lazySave = _.debounce(handleSaveClick, 2000);
 
 // components
 var TippyTapApp = require('./components/tippy_tap_app.jsx');
@@ -130,7 +130,7 @@ function handleHistoryItemClick(index) {
 
 function render(cursor) {
     // save to the server
-    // lazySave();
+    lazySave();
 
     var undoCount = history ? history.getCurrentIndex() : 0;
     var redoCount = history ? history.history.length - history.getCurrentIndex() - 1 : 0;
