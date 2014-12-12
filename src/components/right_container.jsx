@@ -53,34 +53,10 @@ var supportedStyles = [
 // TODO - put the JSON.stringify and JSON.parse calls in try catch blocks
 // TODO - put new Function call in try catch block
 var RightContainer = React.createClass({
-    getInitialState: function() {
-        return {
-            selectedComponent: this.props.selectedComponent
-        };
-    },
-    componentDidUpdate: function(prevProps, prevState) {
-        if(!_.isEqual(this.state.selectedComponent.name, this.props.selectedComponent.name)) {
-            var self = this;
-            this.setState({selectedComponent: this.props.selectedComponent}, function() {
-                self.clearStyleInputs();
-            })
-        }
-    },
     getDefaultProps: () => { componentList: {} },
-    clearStyleInputs: function() {
-        var i = 0;
-        while(this.refs['style_input_'+i]) {
-            console.log('got it');
-            this.refs['style_input_'+i].getDOMNode().value = '';
-            i++;
-        }
-    },
-    handleStyleInputBlur: function(style, event) {
+    handleStyleChange: function(style, event) {
+        console.log('focus: ', event.target == document.activeElement);
         if(typeof this.props.onStyleChange === 'function') {
-            // var newStyle = _.reduce(this.props.selectedComponent.supportedStyles, function(acc, supportedStyle) {
-            //     acc[supportedStyle] = this.refs['style'+supportedStyle].getDOMNode().value;
-            //     return acc;
-            // }, {}, this);
             this.props.onStyleChange(style, event.target.value);
         }
     },
@@ -124,8 +100,8 @@ var RightContainer = React.createClass({
                     <label>{supportedStyle.name} : </label>
                     <input 
                         ref={'style_input_' + index}
-                        defaultValue={this.props.selectedComponent.props.style ? this.props.selectedComponent.props.style[supportedStyle.cssProperty] :''}
-                        onBlur={this.handleStyleInputBlur.bind(this, supportedStyle)}
+                        value={this.props.selectedComponent.props.style ? this.props.selectedComponent.props.style[supportedStyle.cssProperty] :''}
+                        onChange={this.handleStyleChange.bind(this, supportedStyle)}
                         key={'style_input_'+index}
                         type={supportedStyle.inputType}
                         className='pure-input-u-1-2'
