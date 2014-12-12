@@ -130,7 +130,7 @@ var RightContainer = React.createClass({
             // style tab
             styleInputs = _.map(supportedStyles, function(supportedStyle, index) {
                 return (
-                    <div className='pure-u-1'>
+                    <div className='pure-u-1 pure-control-group'>
                         <label>{supportedStyle.name} : </label>
                         <input 
                             ref={'style_input_' + index}
@@ -264,7 +264,7 @@ var RightContainer = React.createClass({
                             </form>
                         </TabPanel>
                         <TabPanel>
-                            <form className='pure-form pure-g'>
+                            <form className='pure-form pure-g pure-form-aligned'>
                                 {styleInputs}
                             </form>
                         </TabPanel>
