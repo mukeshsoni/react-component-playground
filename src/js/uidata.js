@@ -122,7 +122,11 @@ var UI = {
         comp: Paper,
         props: {
             className: 'paper-examples',
-            zDepth: 3
+            zDepth: 3,
+            style: {
+                width: 200,
+                height: 200
+            }
         },
         supportedStyles: [],
         dragImage: require('./../images/ghost-images/material-ui/paper.png'),
