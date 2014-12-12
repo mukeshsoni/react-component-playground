@@ -38,18 +38,32 @@ var TippyTapApp = React.createClass({
             snapToGrid: e.target.checked
         });
     },
-    handleStyleChange: function(newStyle) {
+    _updateClassProperty: function _updateClassProperty(className, cssProperty, value) {
+        console.log('className: ', className);
+        console.log('css property: ', cssProperty, ' value: ', value);
+        var elems = document.getElementsByClassName(className),
+            size = elems.length;
+
+        for (var i = 0; i < size; i++) {
+            var box = elems[i];
+            box[cssProperty] = value;
+        }
+    },
+    handleStyleChange: function(style, value) {
+
         var data = this.props.cursor.get('data');
         var selectedComponentIndex = this.props.cursor.get(['selectedComponentIndex']);
         var selectedComponentProps = data.getIn([selectedComponentIndex, 'props']);
 
-        if(selectedComponentProps) {
-            selectedComponentProps.update(function(oldValue) {
-                var oldStyle = oldValue.get('style');
-                if(!oldStyle) oldStyle = Immutable.Map();
-                return oldValue.set('style', oldStyle.merge(Immutable.fromJS(newStyle)));
-            });
-        }
+        this._updateClassProperty(selectedComponentProps.get('className'), style.cssProperty, value);
+
+        var selectedComponentStyle = selectedComponentProps.get('style');
+
+        selectedComponentStyle.update(function(oldValue) {
+            return oldValue.set(style.cssProperty, value);
+        });
+
+        PubSub.publish('history', style.name + ' udpated for ' + this.props.cursor.getIn(['data', this.props.cursor.get(['selectedComponentIndex']), 'name']));
     },
     handlePropsChange: function(newProps) {
         var selectedComponentIndex = this.props.cursor.get(['selectedComponentIndex']);

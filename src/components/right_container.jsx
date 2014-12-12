@@ -53,15 +53,35 @@ var supportedStyles = [
 // TODO - put the JSON.stringify and JSON.parse calls in try catch blocks
 // TODO - put new Function call in try catch block
 var RightContainer = React.createClass({
+    getInitialState: function() {
+        return {
+            selectedComponent: this.props.selectedComponent
+        };
+    },
+    componentDidUpdate: function(prevProps, prevState) {
+        if(!_.isEqual(this.state.selectedComponent.name, this.props.selectedComponent.name)) {
+            var self = this;
+            this.setState({selectedComponent: this.props.selectedComponent}, function() {
+                self.clearStyleInputs();
+            })
+        }
+    },
     getDefaultProps: () => { componentList: {} },
-    handleStyleChange: function(e) {
+    clearStyleInputs: function() {
+        var i = 0;
+        while(this.refs['style_input_'+i]) {
+            console.log('got it');
+            this.refs['style_input_'+i].getDOMNode().value = '';
+            i++;
+        }
+    },
+    handleStyleInputBlur: function(style, event) {
         if(typeof this.props.onStyleChange === 'function') {
-            var newStyle = _.reduce(this.props.selectedComponent.supportedStyles, function(acc, supportedStyle) {
-                acc[supportedStyle] = this.refs['style'+supportedStyle].getDOMNode().value;
-                return acc;
-            }, {}, this);
-
-            this.props.onStyleChange(newStyle);
+            // var newStyle = _.reduce(this.props.selectedComponent.supportedStyles, function(acc, supportedStyle) {
+            //     acc[supportedStyle] = this.refs['style'+supportedStyle].getDOMNode().value;
+            //     return acc;
+            // }, {}, this);
+            this.props.onStyleChange(style, event.target.value);
         }
     },
     getPropType: function(propName) {
@@ -89,21 +109,6 @@ var RightContainer = React.createClass({
             this.props.onPropsChange(newProps);
         }
     },
-    handleStyleInputBlur: function(style, event) {
-        console.log('blur envent for: ', style);
-
-        if(event.target.value) {
-            var elems = document.getElementsByClassName(this.props.selectedComponent.props.className),
-                size = elems.length;
-
-            for (var i = 0; i < size; i++) {
-                var box = elems[i];
-                box.style[style.cssProperty]=event.target.value+'px';
-            }
-        }
-
-        typeof this.props.onStyleInput === 'function' && this.props.onStyleInput(style, event.target.value);
-    },
     render: function() {
 
         var index = 0;
@@ -118,7 +123,8 @@ var RightContainer = React.createClass({
                 <div className='pure-u-1'>
                     <label>{supportedStyle.name} : </label>
                     <input 
-                        value={this.props.selectedComponent.props.style ? this.props.selectedComponent.props.style[supportedStyle.cssProperty] :''}
+                        ref={'style_input_' + index}
+                        defaultValue={this.props.selectedComponent.props.style ? this.props.selectedComponent.props.style[supportedStyle.cssProperty] :''}
                         onBlur={this.handleStyleInputBlur.bind(this, supportedStyle)}
                         key={'style_input_'+index}
                         type={supportedStyle.inputType}
