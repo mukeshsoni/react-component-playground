@@ -17,3 +17,4 @@
  ☐ Show a grid of lines in the playground
  ☐ Allow user to add new component by providing the npm package name, sample props json and usage
  ☐ Just selecting a component should not create a history event
+ ☐ Check if it's possible to generate the initial page on server (fast first loading)
