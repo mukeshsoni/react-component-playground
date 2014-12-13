@@ -39,8 +39,6 @@ var TippyTapApp = React.createClass({
         });
     },
     _updateClassProperty: function _updateClassProperty(className, cssProperty, value) {
-        console.log('className: ', className);
-        console.log('css property: ', cssProperty, ' value: ', value);
         var elems = document.getElementsByClassName(className),
             size = elems.length;
 
@@ -52,7 +50,7 @@ var TippyTapApp = React.createClass({
     handleStyleChange: function(style, value) {
 
         var data = this.props.cursor.get('data');
-        var selectedComponentIndex = this.props.cursor.get(['selectedComponentIndex']);
+        var selectedComponentIndex = this.props.selectedComponentIndex;
         var selectedComponentProps = data.getIn([selectedComponentIndex, 'props']);
 
         this._updateClassProperty(selectedComponentProps.get('className'), style.cssProperty, value);
@@ -63,10 +61,10 @@ var TippyTapApp = React.createClass({
             return oldValue.set(style.cssProperty, value);
         });
 
-        PubSub.publish('history', style.name + ' udpated for ' + this.props.cursor.getIn(['data', this.props.cursor.get(['selectedComponentIndex']), 'name']));
+        PubSub.publish('history', style.name + ' udpated for ' + this.props.cursor.getIn(['data', this.props.selectedComponentIndex, 'name']));
     },
     handlePropsChange: function(propValue, propName) {
-        var selectedComponentIndex = this.props.cursor.get(['selectedComponentIndex']);
+        var selectedComponentIndex = this.props.selectedComponentIndex;
         var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]);
         var props = selectedComponent.get('props');
 
@@ -83,9 +81,6 @@ var TippyTapApp = React.createClass({
     handleSaveClick: function() {
         typeof this.props.onSaveClick === 'function' && this.props.onSaveClick();
     },
-    // handleHistoryItemClick: function (historyItemIndex) {
-    //     typeof this.props.onHistoryItemClick === 'function' && this.props.onHistoryItemClick(historyItemIndex);
-    // },
     handleHistoryItemClick: function (event, historyItemIndex) {
         typeof this.props.onHistoryItemClick === 'function' && this.props.onHistoryItemClick(historyItemIndex);
     },
@@ -99,11 +94,11 @@ var TippyTapApp = React.createClass({
             }
         }).reverse();
     },
+    handleComponentSelection: function(index) {
+        typeof this.props.onItemSelected === 'function' && this.props.onItemSelected(index);
+    },
     handleLayerItemClick: function(event, index, item) {
-        this.props.cursor.update(function(oldValue) {
-            return oldValue.set('selectedComponentIndex', oldValue.get('data').count() - index - 1);
-        });
-        PubSub.publish('history', item.text + ' selected');
+        typeof this.props.onItemSelected === 'function' && this.props.onItemSelected(this.props.cursor.get('data').count() - index - 1);
     },
     _moveLayer: function(direction, selectedComponentIndex) {
         var afterIndex = selectedComponentIndex + direction;
@@ -121,7 +116,7 @@ var TippyTapApp = React.createClass({
         PubSub.publish('history', publishMessage);
     },
     moveLayerUp: function() {
-        var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
+        var selectedComponentIndex = this.props.selectedComponentIndex;
         if(selectedComponentIndex === (this.props.cursor.get('data').count()-1)) {
             return;
         }
@@ -129,7 +124,7 @@ var TippyTapApp = React.createClass({
         this._moveLayer(1, selectedComponentIndex);
     },
     moveLayerDown: function() {
-        var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
+        var selectedComponentIndex = this.props.selectedComponentIndex;
         if(selectedComponentIndex === 0) {
             return;
         }
@@ -140,7 +135,8 @@ var TippyTapApp = React.createClass({
         var previewButtonStyle = {
             backgroundColor: this.state.previewMode ? 'green' : 'red'
         };
-        var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
+        var selectedComponentIndex = this.props.selectedComponentIndex;
+
         var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]);
         if(selectedComponent) {
             selectedComponent = selectedComponent.toJS();
@@ -172,12 +168,12 @@ var TippyTapApp = React.createClass({
                         {historyString}</a></li>
             );
         }, this);
-var historyListItems = _.map(this.props.historyStringList, function (historyString, index) {
-    return {
-        payload: index,
-        text: historyString
-    }
-});
+        var historyListItems = _.map(this.props.historyStringList, function (historyString, index) {
+            return {
+                payload: index,
+                text: historyString
+            }
+        });
 
         var layers = this.getLayers();
         return (
@@ -205,6 +201,8 @@ var historyListItems = _.map(this.props.historyStringList, function (historyStri
                         cursor={this.props.cursor}
                         previewMode={this.state.previewMode}
                         selectedComponentStyle={this.state.selectedComponentStyle}
+                        selectedComponentIndex={this.props.selectedComponentIndex}
+                        onItemSelected={this.handleComponentSelection}
                         />
                     <RightContainer
                         onStyleChange={this.handleStyleChange}
@@ -214,7 +212,7 @@ var historyListItems = _.map(this.props.historyStringList, function (historyStri
                     <div className='pure-u-3-24'>
                         <h2>Layers</h2>
                         <mui.Menu 
-                            selectedIndex={this.props.cursor.get('data').count() - this.props.cursor.get('selectedComponentIndex') - 1}
+                            selectedIndex={this.props.cursor.get('data').count() - this.props.selectedComponentIndex - 1}
                             menuItems={layers} 
                             onItemClick={this.handleLayerItemClick}
                             />

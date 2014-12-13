@@ -46,6 +46,10 @@ if (window.history.pushState && window.location.pathname === '/') {
     window.history.pushState({path:newurl},'',newurl);
 }
 
+var historyAgnosticState = {
+    selectedComponentIndex: -1
+};
+
 function getHistory() {
     return _.map(history.history, function(historyItem) {
         return historyItem.toJS();
@@ -105,7 +109,7 @@ function handleSaveClick() {
         .send({id: historyId, data: toSendData})
         .set('Accept', 'application/json')
         .end(function(error, res){
-            console.log('got response from server: ', res);
+            // console.log('got response from server: ', res);
         });
 }
 
@@ -127,10 +131,15 @@ function handleHistoryItemClick(index) {
     // PubSub.publish('history')
 }
 
+function handleItemSelection(index) {
+    console.log('item selection changed to: ', index);
+    historyAgnosticState.selectedComponentIndex = index;
+    render(history.cursor, true);
+}
 
-function render(cursor) {
+function render(cursor, dontSave) {
     // save to the server
-    lazySave();
+    if(!dontSave) lazySave();
 
     var undoCount = history ? history.getCurrentIndex() : 0;
     var redoCount = history ? history.history.length - history.getCurrentIndex() - 1 : 0;
@@ -143,7 +152,9 @@ function render(cursor) {
                     onSaveClick={handleSaveClick}
                     historyStringList={historyStringList}
                     onHistoryItemClick={handleHistoryItemClick}
+                    selectedComponentIndex={historyAgnosticState.selectedComponentIndex}
                     currentHistoryIndex={history ? history.getCurrentIndex() : 0}
+                    onItemSelected={handleItemSelection}
                     cursor={cursor} />, document.getElementById('container')); // jshint ignore:line
 }
 
@@ -181,11 +192,13 @@ function playHistory(index) {
 
 function init() {
     if(!historyJSON || !historyJSON.history || historyJSON.history.length === 0) {
+        historyAgnosticState.selectedComponentIndex = data.length - 1;
         history = new History({
                 selectedComponentIndex: data.length - 1,
                 data: data
             }, render);
     } else {
+        historyAgnosticState.selectedComponentIndex = historyJSON.history.length - 1;
         history = new History(historyJSON.history[0], render);
         historyStringList = historyJSON.historyStringList;
         var index = 1;

@@ -40,7 +40,7 @@ var Playground = React.createClass({
             case 8: // backspace
             case 127: // delete
                 e.preventDefault();
-                var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
+                var selectedComponentIndex = this.props.selectedComponentIndex;
                 this.handleComponentRemoveClick(selectedComponentIndex);
                 break;
             default:
@@ -63,7 +63,6 @@ var Playground = React.createClass({
                             position: {
                                 left: e.clientX,
                                 top: e.clientY,
-                                // zIndex: _.max(data.toJS(), function(component) { return component.position.zIndex }).position.zIndex + 1
                                 zIndex: data.count()
                             },
                             props: _.extend({}, uidata[item.name].props, {className: shortId.generate()}),
@@ -120,11 +119,7 @@ var Playground = React.createClass({
         PubSub.publish('history', 'Item Removed: ' + this.props.cursor.getIn(['data', index, 'name']));
     },
     selectItem: function(index) {
-        this.props.cursor.update(function(oldValue) {
-            return oldValue.set('selectedComponentIndex', index);
-        });
-
-        PubSub.publish('history', 'Item Selected: ' + this.props.cursor.getIn(['data', index, 'name']));  
+        typeof this.props.onItemSelected === 'function' && this.props.onItemSelected(index);
     },
     render() {
         var playgroundStyle = {
@@ -145,8 +140,7 @@ var Playground = React.createClass({
             playgroundStyle.backgroundColor = 'darkkhaki';
         }
 
-        var selectedComponentIndex = this.props.cursor.get('selectedComponentIndex');
-
+        var selectedComponentIndex = this.props.selectedComponentIndex;
         var components = this.props.cursor.get('data').toJS();
         var dragTargets = components.map(function(component, index) {
             var ui = React.createElement(uidata[component.name].comp, component.props || {});

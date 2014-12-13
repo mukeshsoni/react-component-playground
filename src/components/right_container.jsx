@@ -54,20 +54,18 @@ var supportedStyles = [
 // TODO - put new Function call in try catch block
 var RightContainer = React.createClass({
     getInitialState: function() {
-        console.log('rgis');
         return {
-            selectedComponent: this.props.selectedComponent
+            selectedComponent: _.cloneDeep(this.props.selectedComponent)
         };
     },
     componentWillReceiveProps: function(nextProps) {
         if(nextProps.selectedComponent.name !== this.state.selectedComponent.name) {
-            this.setState({selectedComponent: nextProps.selectedComponent});
+            this.setState({selectedComponent: _.cloneDeep(nextProps.selectedComponent)});
         }
     },
     getDefaultProps: () => { componentList: {} },
     handleStyleChange: function(style, event) {
-        // console.log('focus: ', event.target == document.activeElement);
-        var selectedComponent = _.clone(this.state.selectedComponent);
+        var selectedComponent = this.state.selectedComponent;
 
         selectedComponent.props.style[style.cssProperty] = event.target.value;
 
@@ -103,7 +101,7 @@ var RightContainer = React.createClass({
             propsObj = uidata[this.state.selectedComponent.name].comp.propTypes;
         }
 
-        var selectedComponent = _.clone(this.state.selectedComponent);
+        var selectedComponent = this.state.selectedComponent;
         if(propsObj[propName] === React.PropTypes.func) {
             selectedComponent.props[propName] = new Function(e.target.value);
         } else {
