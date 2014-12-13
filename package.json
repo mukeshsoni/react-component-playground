@@ -4,8 +4,8 @@
   "description": "A place where you can design with existing react components by drag and drop and other not programmatic ways",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --progress --colors"
+    "start": "node server.js",
+    "postinstall": "node ./node_modules/.bin/webpack"
   },
   "keywords": [
     "reactjs",
@@ -18,7 +18,7 @@
   "author": "Mukesh Soni <mukeshsoni@gmail.com>",
   "repository": "https://github.com/mukeshsoni/react-component-playground",
   "license": "MIT",
-  "devDependencies": {
+  "dependencies": {
     "jsx-loader": "^0.12.2",
     "less": "^1.7.5",
     "less-loader": "^0.7.7",
@@ -26,9 +26,6 @@
     "style-loader": "^0.8.2",
     "url-loader": "^0.5.5",
     "webpack": "^1.4.13",
-    "webpack-dev-server": "^1.6.6"
-  },
-  "dependencies": {
     "body-parser": "^1.10.0",
     "css-loader": "^0.9.0",
     "express": "^4.10.4",

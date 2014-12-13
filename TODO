@@ -19,3 +19,5 @@
  ☐ Allow user to add new component by providing the npm package name, sample props json and usage
  ☐ Check if it's possible to generate the initial page on server (fast first loading)
  ☐ Host it on heroku and have git hooks to automatically build and delploy on github push
+ ☐ Tests?
+ ☐ Change the css framework from purecss to skeleton? or not?
