@@ -209,8 +209,10 @@ var TippyTapApp = React.createClass({
                         onPropsChange={this.handlePropsChange}
                         selectedComponent={selectedComponent}
                         componentList={componentListForListing} />
-                    <div className='pure-u-3-24'>
+                    <div className='pure-u-4-24'>
                         <h2>Layers</h2>
+                        <button onClick={this.moveLayerUp}>Up</button>
+                        <button onClick={this.moveLayerDown}>Down</button>
                         <mui.Menu 
                             selectedIndex={this.props.cursor.get('data').count() - this.props.selectedComponentIndex - 1}
                             menuItems={layers} 
@@ -222,10 +224,6 @@ var TippyTapApp = React.createClass({
                             menuItems={historyListItems}
                             onItemClick={this.handleHistoryItemClick}
                             />
-                    </div>
-                    <div className='pure-a-1-24'>
-                        <button onClick={this.moveLayerUp}>Up</button>
-                        <button onClick={this.moveLayerDown}>Down</button>
                     </div>
                 </div>
             </div>
