@@ -191,9 +191,11 @@ var TippyTapApp = React.createClass({
                         &nbsp;&nbsp;Snap to grid
                     </input>
 
-                    <span style={{float: 'right'}}>
-                        <mui.RaisedButton onClick={this.handleSaveClick} label='Save' primary={true} />
-                    </span>
+                    {false ? 
+                            <span style={{float: 'right'}}>
+                                <mui.RaisedButton onClick={this.handleSaveClick} label='Save' primary={true} />
+                            </span>
+                            : ''}
                 </header>
                 <div className='pure-g'>
                     <Playground
