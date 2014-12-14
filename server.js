@@ -3,7 +3,16 @@ var bodyParser = require('body-parser');
 var app = express();
 var shortId = require('shortid');
 var redis = require("redis");
-var redisClient = redis.createClient();
+
+if (process.env.REDISTOGO_URL) {
+    var rtg   = require("url").parse(process.env.REDISTOGO_URL);
+    var redisClient = require("redis").createClient(rtg.port, rtg.hostname);
+
+    redisClient.auth(rtg.auth.split(":")[1]);
+} else {
+    var redisClient = redis.createClient();
+}
+
 
 redisClient.on("error", function (err) {
     console.log("Redis error " + err);

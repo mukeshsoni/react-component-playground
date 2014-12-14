@@ -193,17 +193,14 @@ function playHistory(index) {
 function init() {
     if(!historyJSON || !historyJSON.history || historyJSON.history.length === 0) {
         historyAgnosticState.selectedComponentIndex = data.length - 1;
-        history = new History({
-                selectedComponentIndex: data.length - 1,
-                data: data
-            }, render);
+        history = new History({ data: data }, render);
     } else {
-        historyAgnosticState.selectedComponentIndex = historyJSON.history.length - 1;
+        historyAgnosticState.selectedComponentIndex = _.last(historyJSON.history).data.length - 1;
         history = new History(historyJSON.history[0], render);
         historyStringList = historyJSON.historyStringList;
         var index = 1;
 
-        _.defer(playHistory.bind(null, index), 400);
+        _.delay(playHistory.bind(null, index), 100);
     }
 }
 
