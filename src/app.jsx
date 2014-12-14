@@ -6,7 +6,6 @@
 
 var _ = require('lodash');
 var Immutable = require('immutable');
-var Cursor = require('immutable/contrib/cursor');
 var React = require('react/addons');
 var History = require('immutable-history');
 var uidata = require('./js/uidata.js');
@@ -109,7 +108,7 @@ function handleSaveClick() {
         .send({id: historyId, data: toSendData})
         .set('Accept', 'application/json')
         .end(function(error, res){
-            // console.log('got response from server: ', res);
+            if(error) console.log('error from server: ', error);
         });
 }
 
@@ -128,11 +127,9 @@ function handleRedoClick() {
 
 function handleHistoryItemClick(index) {
     history.goto(index);
-    // PubSub.publish('history')
 }
 
 function handleItemSelection(index) {
-    console.log('item selection changed to: ', index);
     historyAgnosticState.selectedComponentIndex = index;
     render(history.cursor, true);
 }
@@ -160,6 +157,7 @@ function render(cursor, dontSave) {
 
 var defaultPostion = { top: 0, left: 0 };
 var initialComponents = ['materialUI/FloatingActionButton', 'materialUI/menu', 'materialUI/dropdown', 'materialUI/RaisedButton'];
+initialComponents = [];
 var data = _.map(initialComponents, function(component, index) {
     return _.merge({
         id: shortId.generate(),

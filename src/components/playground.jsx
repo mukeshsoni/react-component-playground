@@ -121,15 +121,17 @@ var Playground = React.createClass({
     selectItem: function(index) {
         typeof this.props.onItemSelected === 'function' && this.props.onItemSelected(index);
     },
-    render() {
+    render: function() {
         var playgroundStyle = {
             margin: 10,
             padding: 36,
-            minHeight: 700,
-            overflowY: 'auto',
+            minHeight: 650,
+            overflowY: 'hidden',
             backgroundColor: 'white',
             position: 'relative',
-            boxShadow: '0 0 10px #bebebe'
+            boxShadow: '0 0 10px #bebebe',
+            textAlign: 'center',
+            fontSize: '24px'
         };
 
         var dropState = this.getDropState(ItemTypes.ITEM);
@@ -142,6 +144,7 @@ var Playground = React.createClass({
 
         var selectedComponentIndex = this.props.selectedComponentIndex;
         var components = this.props.cursor.get('data').toJS();
+
         var dragTargets = components.map(function(component, index) {
             var ui = React.createElement(uidata[component.name].comp, component.props || {});
 
@@ -171,9 +174,10 @@ var Playground = React.createClass({
                 className="pure-u-15-24 playground"
                 style={playgroundStyle}
             >
-                <ReactCSSTransitionGroup transitionName="dragtarget">
-                    {dragTargets}
-                </ReactCSSTransitionGroup>
+                {dragTargets.length === 0 ? 
+                        <span style={{display: 'block', marginTop: 300}}>Drop Components From Right Panel</span> 
+                        : ''}
+                {dragTargets}
             </div>
         );
     }

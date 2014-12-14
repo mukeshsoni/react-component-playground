@@ -12,16 +12,6 @@ var DropDownMenu = mui.DropDownMenu;
 var materialInput = mui.Input;
 
 var UI = {
-    'materialUI/icon': {
-        comp: mui.Icon,
-        props: {
-            icon: 'maps-local-taxi',
-            style: {}
-        },
-        supportedStyles: [],
-        dragImage: require('./../images/ghost-images/material-ui/icon.png'),
-        icon: 'editor-insert-emoticon'
-    },
     'materialUI/RaisedButton': {
         comp: RaisedButton,
         props: {
@@ -131,6 +121,16 @@ var UI = {
         supportedStyles: [],
         dragImage: require('./../images/ghost-images/material-ui/paper.png'),
         icon: 'content-content-copy'
+    },
+    'materialUI/icon': {
+        comp: mui.Icon,
+        props: {
+            icon: 'maps-local-taxi',
+            style: {}
+        },
+        supportedStyles: [],
+        dragImage: require('./../images/ghost-images/material-ui/icon.png'),
+        icon: 'editor-insert-emoticon'
     },
     'basic/button': {
         comp: require('./../components/basic/button.jsx'),

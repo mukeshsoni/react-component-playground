@@ -131,18 +131,24 @@ var TippyTapApp = React.createClass({
 
         this._moveLayer(-1, selectedComponentIndex);
     },
-    render: function() {
-        var previewButtonStyle = {
-            backgroundColor: this.state.previewMode ? 'green' : 'red'
-        };
+    getSelectedComponent: function() {
         var selectedComponentIndex = this.props.selectedComponentIndex;
-
         var selectedComponent = this.props.cursor.getIn(['data', selectedComponentIndex]);
         if(selectedComponent) {
             selectedComponent = selectedComponent.toJS();
         } else {
             selectedComponent = {};
         }
+
+        return selectedComponent;
+    },
+    render: function() {
+        var previewButtonStyle = {
+            backgroundColor: this.state.previewMode ? 'green' : 'red'
+        };
+
+
+        
 
         var historyList = _.map(this.props.historyStringList, function(historyString, index) {
             var listStyle = {
@@ -209,9 +215,9 @@ var TippyTapApp = React.createClass({
                     <RightContainer
                         onStyleChange={this.handleStyleChange}
                         onPropsChange={this.handlePropsChange}
-                        selectedComponent={selectedComponent}
+                        selectedComponent={this.getSelectedComponent()}
                         componentList={componentListForListing} />
-                    <div className='pure-u-4-24'>
+                    <div className='pure-u-3-24'>
                         <h2>Layers</h2>
                         <button onClick={this.moveLayerUp}>Up</button>
                         <button onClick={this.moveLayerDown}>Down</button>

@@ -128,7 +128,10 @@ var RightContainer = React.createClass({
             // style tab
             styleInputs = _.map(supportedStyles, function(supportedStyle, index) {
                 return (
-                    <div className='pure-u-1 pure-control-group'>
+                    <div 
+                        key={'style_input_div_'+index}
+                        className='pure-u-1 pure-control-group'
+                        >
                         <label>{supportedStyle.name} : </label>
                         <input 
                             ref={'style_input_' + index}
@@ -246,7 +249,7 @@ var RightContainer = React.createClass({
 
 
         return (
-            <div style={style} className="pure-u-4-24 right-container">
+            <div style={style} className="pure-u-5-24 right-container">
                 <div className="right-container-top" style={{minHeight:200, marginBottom: 10}}>
                     <Tabs
                         onSelect={this.handleTopMenuSelected}

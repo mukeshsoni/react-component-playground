@@ -10,7 +10,11 @@
  ✔ Fix the z-index problem (Some components go below another component even when dragged and dropped over them) @done (14-12-11 00:52)
  ✔ Replace our own page controls (like buttons) to material-ui controls. profit! @done (14-12-11 00:52)
  ✔ Just selecting a component should not create a history event @done (14-12-13 18:17)
- ☐ Populate the current values of style attributes (width, height...) in the style box. Use className property of components to create a temporary class
+ ✔ Populate the current values of style attributes (width, height...) in the style box. Use className property of components to create a temporary class @done (14-12-14 11:57)
+ ☐ Let's remove the initial components loaded in the playground
+ ☐ Better history strings
+ ☐ Better layer names
+ ☐ Error messages for incorrect style values
  ☐ Show coordinates on top left of the dragged component
  ☐ Beautify.
  ☐ clientX and clientY for the dropped items does not give the correct coordinates. Need to find the correct solution.
