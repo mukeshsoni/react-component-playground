@@ -250,7 +250,7 @@ var RightContainer = React.createClass({
 
         return (
             <div style={style} className="pure-u-5-24 right-container">
-                <div className="right-container-top" style={{minHeight:200, marginBottom: 10}}>
+                <div className="right-container-top" style={{overflowY: 'auto', minHeight:200, maxHeight: 350, marginBottom: 10}}>
                     <Tabs
                         onSelect={this.handleTopMenuSelected}
                         selectedIndex={0}
