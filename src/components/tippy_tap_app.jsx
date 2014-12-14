@@ -98,20 +98,20 @@ var TippyTapApp = React.createClass({
         typeof this.props.onItemSelected === 'function' && this.props.onItemSelected(index);
     },
     handleLayerItemClick: function(event, index, item) {
-        typeof this.props.onItemSelected === 'function' && this.props.onItemSelected(this.props.cursor.get('data').count() - index - 1);
+        this.handleComponentSelection(this.props.cursor.get('data').count() - index - 1);
     },
     _moveLayer: function(direction, selectedComponentIndex) {
         var afterIndex = selectedComponentIndex + direction;
         this.props.cursor.update(function(oldValue) {
             var selectedComponent = oldValue.get('data').get(selectedComponentIndex);
             return oldValue
-                    .set('selectedComponentIndex', afterIndex)
                     .updateIn(['data'], function(oldVal) {
                         return oldVal.remove(selectedComponentIndex)
                                     .splice(afterIndex, 0, selectedComponent);
                     });
         });
 
+        this.handleComponentSelection(afterIndex);
         var publishMessage = this.props.cursor.getIn(['data', selectedComponentIndex, 'name']) + ' zIndex moved ' + (direction === 1 ? 'up' : 'down');
         PubSub.publish('history', publishMessage);
     },
