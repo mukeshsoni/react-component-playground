@@ -202,8 +202,7 @@ var TippyTapApp = React.createClass({
                                 <mui.RaisedButton onClick={this.handleSaveClick} label='Save' primary={true} />
                             </span>
                             : ''}
-                    <iframe style={{float: 'right'}} src="https://ghbtns.com/github-btn.html?user=mukeshsoni&repo=react-component-playground&type=watch"
-                      allowtransparency="true" frameborder="0" scrolling="0" width="53" height="20"></iframe>
+                    <a target='_blank' style={{float: 'right', marginRight: 20, marginTop: 10}} href="https://github.com/mukeshsoni/react-component-playground">Github</a>
                 </header>
                 <div className='pure-g'>
                     <Playground
