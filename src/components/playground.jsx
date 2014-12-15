@@ -130,8 +130,7 @@ var Playground = React.createClass({
             backgroundColor: 'white',
             position: 'relative',
             boxShadow: '0 0 10px #bebebe',
-            textAlign: 'center',
-            fontSize: '24px'
+            textAlign: 'center'
         };
 
         var dropState = this.getDropState(ItemTypes.ITEM);
@@ -175,7 +174,7 @@ var Playground = React.createClass({
                 style={playgroundStyle}
             >
                 {dragTargets.length === 0 ? 
-                        <span style={{display: 'block', marginTop: 300}}>Drop Components From Right Panel</span> 
+                        <span style={{display: 'block', marginTop: 300, fontSize: 24}}>Drop Components From Right Panel</span> 
                         : ''}
                 {dragTargets}
             </div>
