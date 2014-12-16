@@ -3,6 +3,9 @@ Reactjs Component Playground
 
 A place where you can design with your existing react components by drag and drop and changing component properties.
 
+(Live Demo)[http://react-component-playground.herokuapp.com]
+
+
 ## Features
 1. Drag and drop components to the playground area. Drag the component to place it in the right place.
 2. Modify the components properties on the fly from the input boxes (needs propTypes to be defined).
