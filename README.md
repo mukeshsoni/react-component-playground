@@ -1,6 +1,8 @@
 Reactjs Component Playground
 ============================
 
+An interactive playground for your react components.
+
 A place where you can design with your existing react components by drag and drop and changing component properties.
 
 (Live Demo)[http://react-component-playground.herokuapp.com]
@@ -11,7 +13,7 @@ A place where you can design with your existing react components by drag and dro
 2. Modify the components properties on the fly from the input boxes (needs propTypes to be defined).
 3. Modify the components styles on the fly (needs className or style as a prop).
 4. Complete history of the changes you made in the playground with undo, redo and goto any point in history functionalities.
-5. Unique sharable link to share your work with others. With complete history preserved.
+5. Unique sharable link to share your work with others. With complete history preserved (like a PSD file).
 6. Auto save the work on every action.
 
 ## How to add your own components to the playground
