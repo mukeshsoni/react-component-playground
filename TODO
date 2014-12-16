@@ -25,3 +25,4 @@
  ☐ Host it on heroku and have git hooks to automatically build and delploy on github push
  ☐ Tests?
  ☐ Change the css framework from purecss to skeleton? or not?
+ ☐ Allow component position adjustment using the arrow keys
