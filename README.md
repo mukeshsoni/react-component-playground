@@ -5,7 +5,7 @@ An interactive playground for your react components.
 
 A place where you can design with your existing react components by drag and drop and changing component properties.
 
-(Live Demo)[http://react-component-playground.herokuapp.com]
+[Live Demo](http://react-component-playground.herokuapp.com)
 
 
 ## Features
