@@ -103,6 +103,7 @@ var UI = {
     'materialUI/toggle': {
         comp: Toggle,
         props: {
+            label: 'Toggle me',
             style: {}
         },
         supportedStyles: [],
