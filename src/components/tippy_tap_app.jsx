@@ -188,7 +188,10 @@ var TippyTapApp = React.createClass({
                     <mui.IconButton icon='content-undo' disabled={this.props.undoCount===0} onTouchTap={this.handleUndoClick} />
                     <mui.IconButton icon='content-redo' disabled={this.props.redoCount===0} onTouchTap={this.handleRedoClick} />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    Preview Mode: <mui.Toggle onToggle={this.handlePreviewToggle} />
+                    Preview Mode: 
+                    <mui.Toggle 
+                        onToggle={this.handlePreviewToggle} 
+                        />
                     <input type='checkbox'
                             style={{marginLeft: 20}}
                             checked={this.state.snapToGrid}
@@ -202,7 +205,9 @@ var TippyTapApp = React.createClass({
                                 <mui.RaisedButton onClick={this.handleSaveClick} label='Save' primary={true} />
                             </span>
                             : ''}
-                    <a target='_blank' style={{float: 'right', marginRight: 20, marginTop: 10}} href="https://github.com/mukeshsoni/react-component-playground">Github</a>
+                    <a target='_blank' style={{float: 'right', marginRight: 20, marginTop: 10}} href="https://github.com/mukeshsoni/react-component-playground">
+                        <mui.Icon icon='mui-icon-github' />
+                    </a>
                 </header>
                 <div className='pure-g'>
                     <Playground
@@ -228,11 +233,13 @@ var TippyTapApp = React.createClass({
                             onItemClick={this.handleLayerItemClick}
                             />
                         <h2>History</h2>
-                        <mui.Menu 
-                            selectedIndex={this.props.currentHistoryIndex}
-                            menuItems={historyListItems}
-                            onItemClick={this.handleHistoryItemClick}
-                            />
+                        <div style={{maxHeight: 500, overflow: 'scroll'}}>
+                            <mui.Menu 
+                                selectedIndex={this.props.currentHistoryIndex}
+                                menuItems={historyListItems}
+                                onItemClick={this.handleHistoryItemClick}
+                                />
+                        </div>
                     </div>
                 </div>
             </div>

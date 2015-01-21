@@ -12,6 +12,27 @@ var DropDownMenu = mui.DropDownMenu;
 var materialInput = mui.Input;
 
 var UI = {
+    'materialUI/Snackbar': {
+        comp: mui.Snackbar,
+        props: {
+            message: 'Time for a snack',
+            action: 'dismiss',
+            openOnMount: true
+        },
+        supportedStyles: [],
+        dragImage: require('./../images/ghost-images/material-ui/snackbar.png'),
+        icon: 'communication-message'
+    },
+    'materialUI/Slider': {
+        comp: mui.Slider,
+        props: {
+            name: "Slide it for fun",
+            defaultValue: 0.5
+        },
+        supportedStyles: [],
+        dragImage: require('./../images/ghost-images/material-ui/slider.png'),
+        icon: 'action-trending-neutral'
+    },
     'materialUI/RaisedButton': {
         comp: RaisedButton,
         props: {
@@ -34,7 +55,7 @@ var UI = {
         },
         supportedStyles: [],
         dragImage: require('./../images/ghost-images/material-ui/input.png'),
-        icon: 'action-input'
+        icon: 'content-create'
     },
     'materialUI/FloatingActionButton': {
         comp: FloatingActionButton,
