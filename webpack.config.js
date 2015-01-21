@@ -27,7 +27,6 @@ module.exports = {
         { test: /\.less$/, loaders: [
             "style-loader",
             "css-loader",
-            require.resolve("./css-fix-loader.js"),
             "less-loader"
         ]},
         // { test: /\.less$/, loader: "style!raw!less"},
