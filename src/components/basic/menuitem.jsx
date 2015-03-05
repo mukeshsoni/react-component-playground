@@ -36,7 +36,7 @@ var MenuItem = React.createClass({
         var { isDragging } = this.getDragState(ItemTypes.ITEM);
 
         var icon = (
-            <mui.Icon
+            <mui.FontIcon
                 icon={uidata[this.props.item].icon}
                 />
         );
@@ -47,7 +47,7 @@ var MenuItem = React.createClass({
                 className={this.props.selected?"pure-menu-selected":""}
                 >
                 <a href="#">
-                    {uidata[this.props.item].icon ? <mui.Icon icon={uidata[this.props.item].icon} /> : ''}
+                    {uidata[this.props.item].icon ? <mui.FontIcon icon={uidata[this.props.item].icon} /> : ''}
                     <div>{this.props.item.split('/')[1]}</div>
                 </a>
             </li>

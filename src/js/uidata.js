@@ -154,8 +154,8 @@ var UI = {
         dragImage: require('./../images/ghost-images/material-ui/paper.png'),
         icon: 'content-content-copy'
     },
-    'materialUI/icon': {
-        comp: mui.Icon,
+    'materialUI/font-icon': {
+        comp: mui.FontIcon,
         props: {
             icon: 'maps-local-taxi',
             style: {}

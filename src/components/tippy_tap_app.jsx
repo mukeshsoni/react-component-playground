@@ -147,9 +147,6 @@ var TippyTapApp = React.createClass({
             backgroundColor: this.state.previewMode ? 'green' : 'red'
         };
 
-
-        
-
         var historyList = _.map(this.props.historyStringList, function(historyString, index) {
             var listStyle = {
                         cursor: 'pointer',
@@ -182,11 +179,12 @@ var TippyTapApp = React.createClass({
         });
 
         var layers = this.getLayers();
+
         return (
             <div>
                 <header style={{marginBottom: 10, marginLeft: 10}}>
-                    <mui.IconButton icon='content-undo' disabled={this.props.undoCount===0} onTouchTap={this.handleUndoClick} />
-                    <mui.IconButton icon='content-redo' disabled={this.props.redoCount===0} onTouchTap={this.handleRedoClick} />
+                    <mui.IconButton iconClassName='muidocs-icon-content-undo' disabled={this.props.undoCount===0} onTouchTap={this.handleUndoClick} />
+                    <mui.IconButton iconClassName='muidocs-icon-content-redo' disabled={this.props.redoCount===0} onTouchTap={this.handleRedoClick} />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     Preview Mode: 
                     <mui.Toggle 
@@ -206,7 +204,7 @@ var TippyTapApp = React.createClass({
                             </span>
                             : ''}
                     <a target='_blank' style={{float: 'right', marginRight: 20, marginTop: 10}} href="https://github.com/mukeshsoni/react-component-playground">
-                        <mui.Icon icon='mui-icon-github' />
+                        <mui.FontIcon className='muidocs-icon-github' />
                     </a>
                 </header>
                 <div className='pure-g'>

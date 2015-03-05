@@ -41,8 +41,8 @@ require('./css/main.less');
 (window !== window.top ? window.top : window).setHistory = setHistory;
 
 if (window.history.pushState && window.location.pathname === '/') {
-    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + historyId;
-    window.history.pushState({path:newurl},'',newurl);
+    var newurl = window.location.protocol + '//' + window.location.host + window.location.pathname + historyId;
+    window.history.pushState({path: newurl}, '', newurl);
 }
 
 var historyAgnosticState = {
@@ -141,6 +141,8 @@ function render(cursor, dontSave) {
     var undoCount = history ? history.getCurrentIndex() : 0;
     var redoCount = history ? history.history.length - history.getCurrentIndex() - 1 : 0;
 
+// console.log('tippytapapp: ', TippyTapApp.type);
+
     React.render(<TippyTapApp
                     undoCount={undoCount}
                     redoCount={redoCount}
@@ -212,4 +214,4 @@ window.addEventListener('keydown', function(e) {
     }
 });
 
-module.exports = TippyTapApp; 
+module.exports = TippyTapApp;
